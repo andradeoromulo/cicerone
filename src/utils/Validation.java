@@ -13,6 +13,14 @@ public final class Validation {
             throw new IllegalArgumentException(message);
     }
 
+    public static void isNotNullObject(Object object, String objectName) {
+
+        String message = String.format("%s must not be null", objectName);
+
+        if(object == null)
+            throw new IllegalArgumentException(message);
+    }
+
     public static void isValidSlug(String property, String propertyName) {
 
         String message = String.format("%s must not be null nor empty", propertyName);

@@ -2,7 +2,7 @@ package model;
 
 import utils.Validation;
 
-public class Category {
+public class Subcategory {
 
     private String title;
     private String slug;
@@ -12,14 +12,16 @@ public class Category {
     private Integer order;
     private String iconPath;
     private String colorHexCode;
+    private model.Category parentCategory;
 
-    // Required fields for Category
-    public Category(String title, String slug) {
-        Validation.isNotBlankString(title, "Category.title");
-        Validation.isValidSlug(slug, "Category.slug");
+    // Required fields for Subcategory
+    public Subcategory(String title, String slug, String description, model.Category parentCategory) {
+        Validation.isNotBlankString(title, "Subcategory.title");
+        Validation.isValidSlug(slug, "Subcategory.slug");
 
         this.title = title;
         this.slug = slug;
+        this.parentCategory = parentCategory;
     }
 
     public void setDescription(String description) {
