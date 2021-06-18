@@ -1,6 +1,6 @@
-package model;
+package com.cicerone.model;
 
-import utils.Validation;
+import com.cicerone.utils.Validation;
 
 public class AnswerAlternative {
 
@@ -12,20 +12,12 @@ public class AnswerAlternative {
 
     // Required fields only
     public AnswerAlternative(String description, boolean correct, Question question) {
-        Validation.isNotBlankString(description, "AnswerAlternative.description");
-        Validation.isNotNullObject(question, "AnswerAlternative.question");
+        Validation.isNotBlankString(description);
+        Validation.isNotNullObject(question);
 
         this.description = description;
         this.correct = correct;
         this.question = question;
-    }
-
-    public void setOrder(Integer order) {
-        this.order = order;
-    }
-
-    public void setExplanation(String explanation) {
-        this.explanation = explanation;
     }
 
 }

@@ -1,4 +1,4 @@
-package model;
+package com.cicerone.model;
 
 public class Video extends Activity {
 
@@ -10,11 +10,4 @@ public class Video extends Activity {
         super(title, slug, section);
     }
 
-    public void setDurationInMinutes(Integer durationInMinutes) {
-        this.durationInMinutes = durationInMinutes;
-    }
-
-    public void setTranscription(String transcription) {
-        this.transcription = transcription;
-    }
 }

@@ -1,6 +1,6 @@
-package model;
+package com.cicerone.model;
 
-import utils.Validation;
+import com.cicerone.utils.Validation;
 
 public class Explanation extends Activity {
 
@@ -9,7 +9,7 @@ public class Explanation extends Activity {
     public Explanation(String title, String slug, String text, Section section) {
         super(title, slug, section);
 
-        Validation.isNotBlankString(text, "Explanation.text");
+        Validation.isNotBlankString(text);
 
         this.text = text;
     }

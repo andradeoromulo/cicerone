@@ -1,6 +1,6 @@
-package model;
+package com.cicerone.model;
 
-import utils.Validation;
+import com.cicerone.utils.Validation;
 
 public class Question extends Activity {
 
@@ -10,8 +10,8 @@ public class Question extends Activity {
     public Question(String title, String slug, Section section, String text, QuestionType type) {
         super(title, slug, section);
 
-        Validation.isNotBlankString(text, "Question.text");
-        Validation.isNotNullObject(type, "Question.type");
+        Validation.isNotBlankString(text);
+        Validation.isNotNullObject(type);
 
         this.text = text;
         this.type = type;
