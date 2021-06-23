@@ -37,4 +37,16 @@ public class Course {
         this.program = program;
         this.skills = skills;
     }
+
+    public String getCategorySlug() {
+        return this.category.getSlug();
+    }
+
+    public Integer getTimeToFinishInHours() {
+        return timeToFinishInHours;
+    }
+
+    public String getTitle() {
+        return title;
+    }
 }

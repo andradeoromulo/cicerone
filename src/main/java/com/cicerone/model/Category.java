@@ -2,6 +2,8 @@ package com.cicerone.model;
 
 import com.cicerone.util.validation.Validator;
 
+import java.util.Objects;
+
 public class Category {
 
     private String title;
@@ -47,5 +49,42 @@ public class Category {
         this.order = order;
         this.description = description;
         this.disabled = disabled;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Category category = (Category) o;
+        return Objects.equals(slug, category.slug);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(slug);
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getIconPath() {
+        return iconPath;
+    }
+
+    public String getColorHexCode() {
+        return colorHexCode;
+    }
+
+    public String getSlug() {
+        return slug;
+    }
+
+    public String getParentCategorySlug() {
+        return parentCategory.getSlug();
     }
 }
