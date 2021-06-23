@@ -1,6 +1,6 @@
 package com.cicerone.model;
 
-import com.cicerone.utils.Validation;
+import com.cicerone.util.validation.Validator;
 
 public class Section {
 
@@ -13,9 +13,9 @@ public class Section {
 
     // Required fields only
     public Section(String title, String slug, Course course) {
-        Validation.isNotBlankString(title);
-        Validation.isValidSlug(slug);
-        Validation.isNotNullObject(course);
+        Validator.isNotBlankString(title);
+        Validator.isValidSlug(slug);
+        Validator.isNotNullObject(course);
 
         this.title = title;
         this.slug = slug;

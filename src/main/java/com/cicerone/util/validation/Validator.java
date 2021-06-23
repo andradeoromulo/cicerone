@@ -1,8 +1,8 @@
-package com.cicerone.utils;
+package com.cicerone.util.validation;
 
-public final class Validation {
+public final class Validator {
 
-    private Validation() {
+    private Validator() {
     }
 
     public static void isNotBlankString(String property) {
