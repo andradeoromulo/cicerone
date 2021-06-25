@@ -4,7 +4,8 @@ public class HTMLGeneratorTest {
 
     public static void main(String[] args) {
 
-        HTMLGenerator.generate();
+        HTMLGenerator htmlGenerator = new HTMLGenerator("src/test/resources/csv", "src/test/resources/html");
+        htmlGenerator.generate();
 
     }
 

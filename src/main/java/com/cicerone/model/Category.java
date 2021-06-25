@@ -15,6 +15,8 @@ public class Category {
     private String iconPath;
     private String colorHexCode;
     private Category parentCategory;
+    private Integer courseAmount;
+    private Integer timeToFinishInHours;
 
     // Required fields for Category
     public Category(String title, String slug) {
@@ -86,5 +88,21 @@ public class Category {
 
     public String getParentCategorySlug() {
         return parentCategory.getSlug();
+    }
+
+    public Integer getCourseAmount() {
+        return courseAmount;
+    }
+
+    public void setCourseAmount(Integer courseAmount) {
+        this.courseAmount = courseAmount;
+    }
+
+    public Integer getTimeToFinishInHours() {
+        return timeToFinishInHours;
+    }
+
+    public void setTimeToFinishInHours(Integer timeToFinishInHours) {
+        this.timeToFinishInHours = timeToFinishInHours;
     }
 }
