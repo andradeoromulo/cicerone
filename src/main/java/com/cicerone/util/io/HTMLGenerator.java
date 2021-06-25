@@ -49,11 +49,11 @@ public class HTMLGenerator {
                     if(coursesBySub.get(subcategory).size() > 0) {
 
                         String coursesNames = coursesBySub.get(subcategory).stream().map(course -> course.getTitle()).collect(Collectors.joining(", "));
-                        htmlSubItens += "\t\t\t\t\t\t<p>Cursos: %s</p>".formatted(coursesNames);
+                        htmlSubItens += "\n\t\t\t\t\t\t<p>Cursos: %s</p>".formatted(coursesNames);
 
                     }
 
-                    htmlSubItens += "\t\t\t\t\t</li>";
+                    htmlSubItens += "\n\t\t\t\t\t</li>\n";
 
                 }
 
