@@ -57,21 +57,21 @@ public class HTMLGenerator {
 
                 }
 
-                htmlItens = """
-                            \t\t\t<li>
-                            \t\t\t\t<h2>%s</h2>
-                            \t\t\t\t<p>Descrição: %s</p>
-                            \t\t\t\t<p>Ícone: %s</p>
-                            \t\t\t\t<p>Cor: %s</p>
-                            \t\t\t\t<p>Total de cursos: %d</p>
-                            \t\t\t\t<p>Total de horas: %d</p>
-                            \t\t\t\t<ul>
-                            %s
-                            \t\t\t\t</ul>
-                            \t\t\t</li>
-                            """.formatted(category.getTitle(), category.getDescription(), category.getIconPath(),
-                       category.getColorHexCode(), category.getCourseAmount(), category.getTimeToFinishInHours(),
-                       htmlSubItens);
+                htmlItens += """
+                             \t\t\t<li>
+                             \t\t\t\t<h2>%s</h2>
+                             \t\t\t\t<p>Descrição: %s</p>
+                             \t\t\t\t<p>Ícone: %s</p>
+                             \t\t\t\t<p>Cor: %s</p>
+                             \t\t\t\t<p>Total de cursos: %d</p>
+                             \t\t\t\t<p>Total de horas: %d</p>
+                             \t\t\t\t<ul>
+                             %s
+                             \t\t\t\t</ul>
+                             \t\t\t</li>
+                             """.formatted(category.getTitle(), category.getDescription(), category.getIconPath(),
+                        category.getColorHexCode(), category.getCourseAmount(), category.getTimeToFinishInHours(),
+                        htmlSubItens);
             }
 
             String htmlTemplate = """
