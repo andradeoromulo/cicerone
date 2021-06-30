@@ -2,7 +2,8 @@ package com.cicerone.model;
 
 import com.cicerone.util.validation.Validator;
 
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Category {
 
@@ -14,9 +15,7 @@ public class Category {
     private Integer order;
     private String iconPath;
     private String colorHexCode;
-    private Category parentCategory;
-    private Integer courseAmount;
-    private Integer timeToFinishInHours;
+    private List<Subcategory> subcategories;
 
     // Required fields for Category
     public Category(String title, String slug) {
@@ -26,6 +25,7 @@ public class Category {
         this.title = title;
         this.slug = slug;
         this.disabled = true;
+        this.subcategories = new ArrayList<>();
     }
 
     public Category(String title, String slug, Integer order, String description, boolean disabled, String iconPath, String colorHexCode) {
@@ -35,35 +35,6 @@ public class Category {
         this.disabled = disabled;
         this.iconPath = iconPath;
         this.colorHexCode = colorHexCode;
-    }
-
-    // Required fields for Subcategory
-    public Category(String title, String slug, Category parentCategory) {
-        this(title, slug);
-
-        Validator.isNotNullObject(parentCategory);
-
-        this.parentCategory = parentCategory;
-    }
-
-    public Category(String title, String slug, Integer order, String description, boolean disabled, Category parentCategory) {
-        this(title, slug, parentCategory);
-        this.order = order;
-        this.description = description;
-        this.disabled = disabled;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Category category = (Category) o;
-        return Objects.equals(slug, category.slug);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(slug);
     }
 
     public String getTitle() {
@@ -86,23 +57,20 @@ public class Category {
         return slug;
     }
 
-    public String getParentCategorySlug() {
-        return parentCategory.getSlug();
-    }
-
     public Integer getCourseAmount() {
-        return courseAmount;
-    }
-
-    public void setCourseAmount(Integer courseAmount) {
-        this.courseAmount = courseAmount;
+        return subcategories.stream().mapToInt(Subcategory::getCourseAmount).sum();
     }
 
     public Integer getTimeToFinishInHours() {
-        return timeToFinishInHours;
+        return subcategories.stream().mapToInt(Subcategory::getTimeToFinishInHours).sum();
     }
 
-    public void setTimeToFinishInHours(Integer timeToFinishInHours) {
-        this.timeToFinishInHours = timeToFinishInHours;
+    public List<Subcategory> getSubcategories() {
+        return Collections.unmodifiableList(this.subcategories);
     }
+
+    public void addSubcategory(Subcategory subcategory) {
+        this.subcategories.add(subcategory);
+    }
+
 }

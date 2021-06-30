@@ -8,34 +8,24 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class HTMLGenerator {
+public final class HTMLGenerator {
 
-    private String sourceDirPath;
-    private String targetDirPath;
-
-    private List<Category> categories;
-    private List<Category> subcategories;
-    private List<Course> courses;
-
-    public HTMLGenerator(String sourceDirPath, String targetDirPath) {
-        this.sourceDirPath = sourceDirPath;
-        this.targetDirPath = targetDirPath;
+    private HTMLGenerator() {
     }
 
-    public void generate() {
+    public static void generate(String sourceDirPath, String targetDirPath) {
 
-        this.fetchData();
+        List<Category> categories = fetchData(sourceDirPath, targetDirPath);
 
         String htmlItens = "";
-        String htmlSubItens = "";
 
-        try(PrintWriter writer = new PrintWriter( new FileWriter(this.targetDirPath.concat("/categories.html"), false))) {
+        try(PrintWriter writer = new PrintWriter( new FileWriter(targetDirPath.concat("/categories.html"), false))) {
 
-            for (Category category : categories) {
+            for(Category category : categories) {
 
-                Map<Category, List<Course>> coursesBySub = mapCoursesToSubcategories(category);
+                String htmlSubItens = "";
 
-                for(Category subcategory : coursesBySub.keySet()) {
+                for(Subcategory subcategory : category.getSubcategories()) {
 
                     htmlSubItens += """
                                  \t\t\t\t\t<li>
@@ -46,9 +36,9 @@ public class HTMLGenerator {
                         htmlSubItens += "\t\t\t\t\t\t<p>Descrição: %s</p>".formatted(subcategory.getDescription());
                     }
 
-                    if(coursesBySub.get(subcategory).size() > 0) {
+                    if(subcategory.getCourses().size() > 0) {
 
-                        String coursesNames = coursesBySub.get(subcategory).stream().map(course -> course.getTitle()).collect(Collectors.joining(", "));
+                        String coursesNames = subcategory.getCourses().stream().map(course -> course.getTitle()).collect(Collectors.joining(", "));
                         htmlSubItens += "\n\t\t\t\t\t\t<p>Cursos: %s</p>".formatted(coursesNames);
 
                     }
@@ -72,6 +62,7 @@ public class HTMLGenerator {
                              """.formatted(category.getTitle(), category.getDescription(), category.getIconPath(),
                         category.getColorHexCode(), category.getCourseAmount(), category.getTimeToFinishInHours(),
                         htmlSubItens);
+
             }
 
             String htmlTemplate = """
@@ -93,13 +84,14 @@ public class HTMLGenerator {
 
         } catch (IOException e) {
             e.printStackTrace();
+            throw new RuntimeException(String.format("Not possible to complete HTML Generation: %s.", e.getMessage()));
         }
 
     }
 
-    private void fetchData() {
+    private static List<Category> fetchData(String sourceDirPath, String targetDirPath) {
 
-        this.categories = CSVDataLoader.load(this.sourceDirPath.concat("/categories.csv"), (properties) -> {
+        List<Category> categories = CSVDataLoader.load(sourceDirPath.concat("/categories.csv"), (properties) -> {
 
             String title = properties[0];
             String slug = properties[1].trim();
@@ -114,7 +106,7 @@ public class HTMLGenerator {
 
         Map<String, Category> categoriesMap = categories.stream().collect(Collectors.toMap(Category::getSlug, Function.identity()));
 
-        this.subcategories = CSVDataLoader.load(this.sourceDirPath.concat("/subcategories.csv"), (properties) -> {
+        List<Subcategory> subcategories = CSVDataLoader.load(sourceDirPath.concat("/subcategories.csv"), (properties) -> {
 
             String title = properties[0];
             String slug = properties[1].trim();
@@ -123,12 +115,12 @@ public class HTMLGenerator {
             boolean disabled = !properties[4].equals("ATIVA");
             Category parentCategory = categoriesMap.get(properties[5]);
 
-            return new Category(title, slug, order, description, disabled, parentCategory);
+            return new Subcategory(title, slug, order, description, disabled, parentCategory);
         });
 
-        Map<String, Category> subcategoriesMap = subcategories.stream().collect(Collectors.toMap(Category::getSlug, Function.identity()));
+        Map<String, Subcategory> subcategoriesMap = subcategories.stream().collect(Collectors.toMap(Subcategory::getSlug, Function.identity()));
 
-        this.courses = CSVDataLoader.load(this.sourceDirPath.concat("/courses.csv"), (properties) -> {
+        List<Course> courses = CSVDataLoader.load(sourceDirPath.concat("/courses.csv"), (properties) -> {
 
             String title = properties[0];
             String slug = properties[1].trim();
@@ -138,28 +130,12 @@ public class HTMLGenerator {
             String instructor = properties[5];
             String program = properties[6];
             String skills = properties[7];
-            Category category = subcategoriesMap.get(properties[8]);
+            Subcategory subcategory = subcategoriesMap.get(properties[8]);
 
-            return new Course(title, slug, timeToFinishInHours, disabled, targetAudience, instructor, program, skills, category);
+            return new Course(title, slug, timeToFinishInHours, disabled, targetAudience, instructor, program, skills, subcategory);
         });
 
-    }
-
-    private Map<Category, List<Course>> mapCoursesToSubcategories(Category category) {
-
-        Map<Category, List<Course>> coursesBySub = subcategories.stream()
-                .filter(sub -> sub.getParentCategorySlug().equals(category.getSlug()))
-                .collect(Collectors.toMap(
-                        Function.identity(),
-                        sub -> courses.stream().filter(course -> course.getCategorySlug().equals(sub.getSlug())).collect(Collectors.toList())
-                ));
-
-        category.setCourseAmount(coursesBySub.values().stream().mapToInt(List::size).sum());
-
-        category.setTimeToFinishInHours(coursesBySub.values().stream().mapToInt(subCourses ->
-                subCourses.stream().mapToInt(Course::getTimeToFinishInHours).sum()).sum());
-
-        return coursesBySub;
+        return categories;
 
     }
 
