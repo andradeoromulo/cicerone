@@ -1,6 +1,6 @@
 package com.cicerone.model;
 
-import com.cicerone.utils.Validation;
+import com.cicerone.util.validation.Validator;
 
 public class AnswerAlternative {
 
@@ -12,8 +12,8 @@ public class AnswerAlternative {
 
     // Required fields only
     public AnswerAlternative(String description, boolean correct, Question question) {
-        Validation.isNotBlankString(description);
-        Validation.isNotNullObject(question);
+        Validator.isNotBlankString(description);
+        Validator.isNotNullObject(question);
 
         this.description = description;
         this.correct = correct;

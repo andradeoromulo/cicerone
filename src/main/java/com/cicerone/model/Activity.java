@@ -1,6 +1,6 @@
 package com.cicerone.model;
 
-import com.cicerone.utils.Validation;
+import com.cicerone.util.validation.Validator;
 
 public abstract class Activity {
 
@@ -12,9 +12,9 @@ public abstract class Activity {
 
     // Required fields only
     public Activity(String title, String slug, Section section) {
-        Validation.isNotBlankString(title);
-        Validation.isValidSlug(slug);
-        Validation.isNotNullObject(section);
+        Validator.isNotBlankString(title);
+        Validator.isValidSlug(slug);
+        Validator.isNotNullObject(section);
 
         this.title = title;
         this.slug = slug;
