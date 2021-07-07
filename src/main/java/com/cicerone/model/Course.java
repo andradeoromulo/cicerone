@@ -51,4 +51,28 @@ public class Course {
     public String getTitle() {
         return title;
     }
+
+    public Object getSlug() {
+        return slug;
+    }
+
+    public boolean isDisabled() {
+        return disabled;
+    }
+
+    public String getTargetAudience() {
+        return targetAudience;
+    }
+
+    public String getInstructor() {
+        return instructor;
+    }
+
+    public String getProgram() {
+        return program;
+    }
+
+    public String getSkills() {
+        return skills;
+    }
 }

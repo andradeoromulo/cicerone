@@ -51,6 +51,10 @@ public class Subcategory {
         return slug;
     }
 
+    public boolean isDisabled() {
+        return disabled;
+    }
+
     public Integer getCourseAmount() {
         return courses.size();
     }
@@ -66,4 +70,9 @@ public class Subcategory {
     public void addCourse(Course course) {
         courses.add(course);
     }
+
+    public Object getOrder() {
+        return order;
+    }
+
 }

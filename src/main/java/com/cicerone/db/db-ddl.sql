@@ -1,112 +1,116 @@
 -- DDL Cicerone
 
-CREATE TABLE categories(
+CREATE DATABASE cicerone
+  CHARACTER SET utf8
+  COLLATE utf8_general_ci;
+
+CREATE TABLE Category(
     id BIGINT AUTO_INCREMENT,
     title VARCHAR(100) NOT NULL,
-    slug VARCHAR(100) NOT NULL,
-    description VARCHAR(150),
+    slug VARCHAR(100) NOT NULL UNIQUE,
+    description VARCHAR(250),
     study_guide VARCHAR(250),
-    disabled TINYINT,
+    disabled BOOLEAN,
     order_position INTEGER,
     icon_path VARCHAR(100),
     color_hex_code VARCHAR(7),
     PRIMARY KEY (id)
 );
 
-CREATE TABLE subcategories(
+CREATE TABLE Subcategory(
     id BIGINT AUTO_INCREMENT,
     title VARCHAR(100) NOT NULL,
-    slug VARCHAR(100) NOT NULL,
-    description VARCHAR(150),
+    slug VARCHAR(100) NOT NULL UNIQUE,
+    description VARCHAR(250),
     study_guide VARCHAR(250),
-    disabled TINYINT,
+    disabled BOOLEAN,
     order_position INTEGER,
     icon_path VARCHAR(100),
     color_hex_code VARCHAR(7),
-    category_id BIGINT,
+    category_id BIGINT NOT NULL,
     PRIMARY KEY (id),
-    CONSTRAINT fk_subcategories_categories FOREIGN KEY (category_id)
-        REFERENCES categories(id)
+    CONSTRAINT fk_subcategory_category FOREIGN KEY (category_id)
+        REFERENCES Category(id)
 );
 
-CREATE TABLE courses(
+CREATE TABLE Course(
     id BIGINT AUTO_INCREMENT,
     title VARCHAR(100) NOT NULL,
-    slug VARCHAR(100) NOT NULL,
-    time_to_finish_in_hours INTEGER,
-    disabled TINYINT,
-    target_audience VARCHAR(150),
-    instructor VARCHAR(100),
-    program VARCHAR(150),
-    skills VARCHAR(150),
-    subcategory_id BIGINT,
+    slug VARCHAR(100) NOT NULL UNIQUE,
+    time_to_finish_in_hours INTEGER NOT NULL,
+    disabled BOOLEAN,
+    target_audience VARCHAR(250),
+    instructor VARCHAR(100) NOT NULL,
+    program TEXT,
+    skills TEXT,
+    subcategory_id BIGINT NOT NULL,
     PRIMARY KEY (id),
-    CONSTRAINT fk_courses_subcategories FOREIGN KEY (subcategory_id)
-        REFERENCES subcategories(id)
+    CONSTRAINT fk_course_subcategory FOREIGN KEY (subcategory_id)
+        REFERENCES Subcategory(id)
 );
 
-CREATE TABLE sections(
+CREATE TABLE Section(
     id BIGINT AUTO_INCREMENT,
     title VARCHAR(100) NOT NULL,
-    slug VARCHAR(100) NOT NULL,
+    slug VARCHAR(100) NOT NULL UNIQUE,
     order_position INTEGER,
-    disabled TINYINT,
-    exam TINYINT,
-    course_id BIGINT,
+    disabled BOOLEAN,
+    exam BOOLEAN,
+    course_id BIGINT NOT NULL,
     PRIMARY KEY (id),
-    CONSTRAINT fk_sections_courses FOREIGN KEY (course_id)
-        REFERENCES courses(id)
+    CONSTRAINT fk_section_course FOREIGN KEY (course_id)
+        REFERENCES Course(id)
 );
 
-CREATE TABLE explanations(
+CREATE TABLE Explanation(
     id BIGINT AUTO_INCREMENT,
     title VARCHAR(100) NOT NULL,
-    slug VARCHAR(100) NOT NULL,
+    slug VARCHAR(100) NOT NULL UNIQUE,
     order_position INTEGER,
-    disabled TINYINT,
-    explanation_text TEXT,
-    section_id BIGINT,
+    disabled BOOLEAN,
+    explanation_text TEXT NOT NULL,
+    section_id BIGINT NOT NULL,
     PRIMARY KEY (id),
-    CONSTRAINT fk_explanations_sections FOREIGN KEY (section_id)
-        REFERENCES sections(id)
+    CONSTRAINT fk_explanation_section FOREIGN KEY (section_id)
+        REFERENCES Section(id)
 );
 
-CREATE TABLE videos(
+CREATE TABLE Video(
     id BIGINT AUTO_INCREMENT,
     title VARCHAR(100) NOT NULL,
-    slug VARCHAR(100) NOT NULL,
+    slug VARCHAR(100) NOT NULL UNIQUE,
     order_position INTEGER,
-    disabled TINYINT,
+    disabled BOOLEAN,
     duration_in_minutes INTEGER,
     transcription TEXT,
-    section_id BIGINT,
+    section_id BIGINT NOT NULL,
     PRIMARY KEY (id),
-    CONSTRAINT fk_videos_sections FOREIGN KEY (section_id)
-        REFERENCES sections(id)
+    CONSTRAINT fk_video_section FOREIGN KEY (section_id)
+        REFERENCES Section(id)
 );
 
-CREATE TABLE questions(
+CREATE TABLE Question(
     id BIGINT AUTO_INCREMENT,
     title VARCHAR(100) NOT NULL,
-    slug VARCHAR(100) NOT NULL,
+    slug VARCHAR(100) NOT NULL UNIQUE,
     order_position INTEGER,
-    disabled TINYINT,
-    question_text TEXT,
-    type INTEGER,
-    section_id BIGINT,
+    disabled BOOLEAN,
+    question_text TEXT NOT NULL,
+    type INTEGER NOT NULL,
+    section_id BIGINT NOT NULL,
     PRIMARY KEY (id),
-    CONSTRAINT fk_questions_sections FOREIGN KEY (section_id)
-        REFERENCES sections(id)
+    CONSTRAINT fk_question_section FOREIGN KEY (section_id)
+        REFERENCES Section(id)
 );
 
-CREATE TABLE answer_alternatives(
+CREATE TABLE AnswerAlternative(
     id BIGINT AUTO_INCREMENT,
-    description TEXT,
+    description TEXT NOT NULL,
     explanation TEXT,
     order_position INTEGER,
-    correct TINYINT,
-    question_id BIGINT,
+    correct TINYINT NOT NULL,
+    question_id BIGINT NOT NULL,
     PRIMARY KEY (id),
-    CONSTRAINT fk_answer_alternatives_questions FOREIGN KEY (question_id)
-        REFERENCES sections(id)
+    CONSTRAINT fk_answer_alternative_question FOREIGN KEY (question_id)
+        REFERENCES Section(id)
 );

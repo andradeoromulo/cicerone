@@ -57,6 +57,14 @@ public class Category {
         return slug;
     }
 
+    public Integer getOrder() {
+        return order;
+    }
+
+    public boolean isDisabled() {
+        return disabled;
+    }
+
     public Integer getCourseAmount() {
         return subcategories.stream().mapToInt(Subcategory::getCourseAmount).sum();
     }
