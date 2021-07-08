@@ -5,7 +5,7 @@ import com.cicerone.util.validation.Validator;
 public class Course {
 
     private String title;
-    private String slug;
+    private String code;
     private Integer timeToFinishInHours;
     private boolean disabled;
     private String targetAudience;
@@ -15,15 +15,15 @@ public class Course {
     private Subcategory subcategory;
 
     // Required fields only
-    public Course(String title, String slug, Integer timeToFinishInHours, String instructor, Subcategory subcategory) {
+    public Course(String title, String code, Integer timeToFinishInHours, String instructor, Subcategory subcategory) {
         Validator.isNotBlankString(title);
-        Validator.isValidSlug(slug);
+        Validator.isValidCode(code);
         Validator.isIntegerBetweenRange(timeToFinishInHours, 1, 20);
         Validator.isNotBlankString(instructor);
         Validator.isNotNullObject(subcategory);
 
         this.title = title;
-        this.slug = slug;
+        this.code = code;
         this.timeToFinishInHours = timeToFinishInHours;
         this.instructor = instructor;
         this.subcategory = subcategory;
@@ -32,8 +32,8 @@ public class Course {
         subcategory.addCourse(this);
     }
 
-    public Course(String title, String slug, Integer timeToFinishInHours, boolean disabled, String targetAudience, String instructor, String program, String skills, Subcategory subcategory) {
-        this(title, slug, timeToFinishInHours, instructor, subcategory);
+    public Course(String title, String code, Integer timeToFinishInHours, boolean disabled, String targetAudience, String instructor, String program, String skills, Subcategory subcategory) {
+        this(title, code, timeToFinishInHours, instructor, subcategory);
         this.disabled = disabled;
         this.targetAudience = targetAudience;
         this.program = program;
@@ -41,7 +41,7 @@ public class Course {
     }
 
     public String getSubcategorySlug() {
-        return this.subcategory.getSlug();
+        return this.subcategory.getCode();
     }
 
     public Integer getTimeToFinishInHours() {
@@ -50,5 +50,29 @@ public class Course {
 
     public String getTitle() {
         return title;
+    }
+
+    public Object getCode() {
+        return code;
+    }
+
+    public boolean isDisabled() {
+        return disabled;
+    }
+
+    public String getTargetAudience() {
+        return targetAudience;
+    }
+
+    public String getInstructor() {
+        return instructor;
+    }
+
+    public String getProgram() {
+        return program;
+    }
+
+    public String getSkills() {
+        return skills;
     }
 }

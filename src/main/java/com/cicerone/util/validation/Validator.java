@@ -19,9 +19,9 @@ public final class Validator {
 
     }
 
-    public static void isValidSlug(String property) {
+    public static void isValidCode(String property) {
 
-        String message = "Slug can only contain low case letters and hyphens";
+        String message = "Code can only contain low case letters and hyphens";
         if(!property.matches("^[a-z]+[a-z-]*[a-z]+$")) throw new IllegalArgumentException(message);
 
     }

@@ -1,90 +1,64 @@
 package com.cicerone.util.io;
 
-import com.cicerone.model.*;
+import com.cicerone.model.Category;
+import com.cicerone.model.Course;
+import com.cicerone.model.Subcategory;
 
-import java.io.*;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public final class HTMLGenerator {
+public final class SQLGenerator {
 
-    private HTMLGenerator() {
+    private SQLGenerator() {
     }
 
     public static void generate(String sourceDirPath, String targetDirPath) {
 
         List<Category> categories = fetchData(sourceDirPath, targetDirPath);
 
-        String htmlItens = "";
+        String sql = "";
 
-        try(PrintWriter writer = new PrintWriter( new FileWriter(targetDirPath.concat("/categories.html"), false))) {
+        try(PrintWriter writer = new PrintWriter( new FileWriter(targetDirPath.concat("/data-load.sql"), false))) {
 
             for(Category category : categories) {
 
-                String htmlSubItens = "";
+                sql += """
+                       \n-- Category %s
+                       INSERT INTO Category (title, code, order_position, description, disabled, icon_path, color_hex_code)
+                       \tVALUES ("%s", "%s", %d, "%s", %b, "%s", "%s");
+                       """.formatted(category.getTitle(), category.getTitle(), category.getCode(), category.getOrder(),
+                        category.getDescription(), category.isDisabled(), category.getIconPath(), category.getColorHexCode());
 
                 for(Subcategory subcategory : category.getSubcategories()) {
 
-                    htmlSubItens += """
-                                 \t\t\t\t\t<li>
-                                 \t\t\t\t\t\t<h3>%s</h3>
-                                 """.formatted(subcategory.getTitle());
-
-                    if(!subcategory.getDescription().isEmpty()) {
-                        htmlSubItens += "\t\t\t\t\t\t<p>Descrição: %s</p>".formatted(subcategory.getDescription());
-                    }
+                    sql += """
+                           \nINSERT INTO Subcategory (title, code, order_position, description, disabled, category_id)
+                           \tSELECT "%s", "%s", %d, "%s", %b, id FROM Category c WHERE c.code = "%s";
+                           """.formatted(subcategory.getTitle(), subcategory.getCode(), subcategory.getOrder(),
+                            subcategory.getDescription(), subcategory.isDisabled(), category.getCode());
 
                     if(subcategory.getCourses().size() > 0) {
-
-                        String coursesNames = subcategory.getCourses().stream().map(course -> course.getTitle()).collect(Collectors.joining(", "));
-                        htmlSubItens += "\n\t\t\t\t\t\t<p>Cursos: %s</p>".formatted(coursesNames);
-
+                        for(Course course : subcategory.getCourses()) {
+                            sql += """
+                                   \nINSERT INTO Course (title, code, time_to_finish_in_hours, disabled, target_audience, instructor, program, skills, subcategory_id)
+                                   \tSELECT "%s", "%s", %d, %b, "%s", "%s", "%s", "%s", id FROM Subcategory s WHERE s.code = "%s";
+                                   """.formatted(course.getTitle(), course.getCode(), course.getTimeToFinishInHours(), course.isDisabled(),
+                                    course.getTargetAudience(), course.getInstructor(), course.getProgram(), course.getSkills(), subcategory.getCode());
+                        }
                     }
-
-                    htmlSubItens += "\n\t\t\t\t\t</li>\n";
-
                 }
-
-                htmlItens += """
-                             \t\t\t<li>
-                             \t\t\t\t<h2>%s</h2>
-                             \t\t\t\t<p>Descrição: %s</p>
-                             \t\t\t\t<p>Ícone: %s</p>
-                             \t\t\t\t<p>Cor: %s</p>
-                             \t\t\t\t<p>Total de cursos: %d</p>
-                             \t\t\t\t<p>Total de horas: %d</p>
-                             \t\t\t\t<ul>
-                             %s
-                             \t\t\t\t</ul>
-                             \t\t\t</li>
-                             """.formatted(category.getTitle(), category.getDescription(), category.getIconPath(),
-                        category.getColorHexCode(), category.getCourseAmount(), category.getTimeToFinishInHours(),
-                        htmlSubItens);
-
             }
 
-            String htmlTemplate = """
-                                  <html lang="pt-br">
-                                  \t<head>
-                                  \t\t<meta charset="utf-8">
-                                  \t\t<title>Cicerone | Categorias </title>
-                                  \t</head>
-                                  \t<body>
-                                  \t\t<h1>Categorias</h1>
-                                  \t\t<ul>
-                                  %s
-                                  \t\t</ul>
-                                  \t</body>
-                                  </html>
-                                  """.formatted(htmlItens);
-
-            writer.println(htmlTemplate);
+            writer.println(sql);
 
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException(String.format("Not possible to complete HTML Generation: %s.", e.getMessage()));
+            throw new RuntimeException(String.format("Not possible to complete SQL Generation: %s.", e.getMessage()));
         }
 
     }
