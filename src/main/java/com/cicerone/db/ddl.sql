@@ -7,7 +7,7 @@ CREATE DATABASE cicerone
 CREATE TABLE Category(
     id BIGINT AUTO_INCREMENT,
     title VARCHAR(100) NOT NULL,
-    slug VARCHAR(100) NOT NULL UNIQUE,
+    code VARCHAR(100) NOT NULL UNIQUE,
     description VARCHAR(250),
     study_guide VARCHAR(250),
     disabled BOOLEAN,
@@ -20,7 +20,7 @@ CREATE TABLE Category(
 CREATE TABLE Subcategory(
     id BIGINT AUTO_INCREMENT,
     title VARCHAR(100) NOT NULL,
-    slug VARCHAR(100) NOT NULL UNIQUE,
+    code VARCHAR(100) NOT NULL UNIQUE,
     description VARCHAR(250),
     study_guide VARCHAR(250),
     disabled BOOLEAN,
@@ -36,7 +36,7 @@ CREATE TABLE Subcategory(
 CREATE TABLE Course(
     id BIGINT AUTO_INCREMENT,
     title VARCHAR(100) NOT NULL,
-    slug VARCHAR(100) NOT NULL UNIQUE,
+    code VARCHAR(100) NOT NULL UNIQUE,
     time_to_finish_in_hours INTEGER NOT NULL,
     disabled BOOLEAN,
     target_audience VARCHAR(250),
@@ -52,7 +52,7 @@ CREATE TABLE Course(
 CREATE TABLE Section(
     id BIGINT AUTO_INCREMENT,
     title VARCHAR(100) NOT NULL,
-    slug VARCHAR(100) NOT NULL UNIQUE,
+    code VARCHAR(100) NOT NULL UNIQUE,
     order_position INTEGER,
     disabled BOOLEAN,
     exam BOOLEAN,
@@ -65,7 +65,7 @@ CREATE TABLE Section(
 CREATE TABLE Explanation(
     id BIGINT AUTO_INCREMENT,
     title VARCHAR(100) NOT NULL,
-    slug VARCHAR(100) NOT NULL UNIQUE,
+    code VARCHAR(100) NOT NULL UNIQUE,
     order_position INTEGER,
     disabled BOOLEAN,
     explanation_text TEXT NOT NULL,
@@ -78,7 +78,7 @@ CREATE TABLE Explanation(
 CREATE TABLE Video(
     id BIGINT AUTO_INCREMENT,
     title VARCHAR(100) NOT NULL,
-    slug VARCHAR(100) NOT NULL UNIQUE,
+    code VARCHAR(100) NOT NULL UNIQUE,
     order_position INTEGER,
     disabled BOOLEAN,
     duration_in_minutes INTEGER,
@@ -92,7 +92,7 @@ CREATE TABLE Video(
 CREATE TABLE Question(
     id BIGINT AUTO_INCREMENT,
     title VARCHAR(100) NOT NULL,
-    slug VARCHAR(100) NOT NULL UNIQUE,
+    code VARCHAR(100) NOT NULL UNIQUE,
     order_position INTEGER,
     disabled BOOLEAN,
     question_text TEXT NOT NULL,

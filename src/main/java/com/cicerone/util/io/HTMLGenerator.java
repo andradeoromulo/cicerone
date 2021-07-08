@@ -94,36 +94,36 @@ public final class HTMLGenerator {
         List<Category> categories = CSVDataLoader.load(sourceDirPath.concat("/categories.csv"), (properties) -> {
 
             String title = properties[0];
-            String slug = properties[1].trim();
+            String code = properties[1].trim();
             int order = properties[2].isEmpty() ? 0 : Integer.parseInt(properties[2]);
             String description = properties[3];
             boolean disabled = !properties[4].equals("ATIVA");
             String iconPath = properties[5];
             String colorHexCode = properties[6];
 
-            return new Category(title, slug, order, description, disabled, iconPath, colorHexCode);
+            return new Category(title, code, order, description, disabled, iconPath, colorHexCode);
         });
 
-        Map<String, Category> categoriesMap = categories.stream().collect(Collectors.toMap(Category::getSlug, Function.identity()));
+        Map<String, Category> categoriesMap = categories.stream().collect(Collectors.toMap(Category::getCode, Function.identity()));
 
         List<Subcategory> subcategories = CSVDataLoader.load(sourceDirPath.concat("/subcategories.csv"), (properties) -> {
 
             String title = properties[0];
-            String slug = properties[1].trim();
+            String code = properties[1].trim();
             int order = properties[2].isEmpty() ? 0 : Integer.parseInt(properties[2]);
             String description = properties[3];
             boolean disabled = !properties[4].equals("ATIVA");
             Category parentCategory = categoriesMap.get(properties[5]);
 
-            return new Subcategory(title, slug, order, description, disabled, parentCategory);
+            return new Subcategory(title, code, order, description, disabled, parentCategory);
         });
 
-        Map<String, Subcategory> subcategoriesMap = subcategories.stream().collect(Collectors.toMap(Subcategory::getSlug, Function.identity()));
+        Map<String, Subcategory> subcategoriesMap = subcategories.stream().collect(Collectors.toMap(Subcategory::getCode, Function.identity()));
 
         List<Course> courses = CSVDataLoader.load(sourceDirPath.concat("/courses.csv"), (properties) -> {
 
             String title = properties[0];
-            String slug = properties[1].trim();
+            String code = properties[1].trim();
             int timeToFinishInHours = Integer.parseInt(properties[2]);
             boolean disabled = !properties[3].equals("PÚBLICA");
             String targetAudience = properties[4];
@@ -132,7 +132,7 @@ public final class HTMLGenerator {
             String skills = properties[7];
             Subcategory subcategory = subcategoriesMap.get(properties[8]);
 
-            return new Course(title, slug, timeToFinishInHours, disabled, targetAudience, instructor, program, skills, subcategory);
+            return new Course(title, code, timeToFinishInHours, disabled, targetAudience, instructor, program, skills, subcategory);
         });
 
         return categories;

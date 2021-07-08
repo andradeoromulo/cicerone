@@ -29,26 +29,26 @@ public final class SQLGenerator {
 
                 sql += """
                        \n-- Category %s
-                       INSERT INTO Category (title, slug, order_position, description, disabled, icon_path, color_hex_code)
+                       INSERT INTO Category (title, code, order_position, description, disabled, icon_path, color_hex_code)
                        \tVALUES ("%s", "%s", %d, "%s", %b, "%s", "%s");
-                       """.formatted(category.getTitle(), category.getTitle(), category.getSlug(), category.getOrder(),
+                       """.formatted(category.getTitle(), category.getTitle(), category.getCode(), category.getOrder(),
                         category.getDescription(), category.isDisabled(), category.getIconPath(), category.getColorHexCode());
 
                 for(Subcategory subcategory : category.getSubcategories()) {
 
                     sql += """
-                           \nINSERT INTO Subcategory (title, slug, order_position, description, disabled, category_id)
-                           \tSELECT "%s", "%s", %d, "%s", %b, id FROM Category c WHERE c.slug = "%s";
-                           """.formatted(subcategory.getTitle(), subcategory.getSlug(), subcategory.getOrder(),
-                            subcategory.getDescription(), subcategory.isDisabled(), category.getSlug());
+                           \nINSERT INTO Subcategory (title, code, order_position, description, disabled, category_id)
+                           \tSELECT "%s", "%s", %d, "%s", %b, id FROM Category c WHERE c.code = "%s";
+                           """.formatted(subcategory.getTitle(), subcategory.getCode(), subcategory.getOrder(),
+                            subcategory.getDescription(), subcategory.isDisabled(), category.getCode());
 
                     if(subcategory.getCourses().size() > 0) {
                         for(Course course : subcategory.getCourses()) {
                             sql += """
-                                   \nINSERT INTO Course (title, slug, time_to_finish_in_hours, disabled, target_audience, instructor, program, skills, subcategory_id)
-                                   \tSELECT "%s", "%s", %d, %b, "%s", "%s", "%s", "%s", id FROM Subcategory s WHERE s.slug = "%s";
-                                   """.formatted(course.getTitle(), course.getSlug(), course.getTimeToFinishInHours(), course.isDisabled(),
-                                    course.getTargetAudience(), course.getInstructor(), course.getProgram(), course.getSkills(), subcategory.getSlug());
+                                   \nINSERT INTO Course (title, code, time_to_finish_in_hours, disabled, target_audience, instructor, program, skills, subcategory_id)
+                                   \tSELECT "%s", "%s", %d, %b, "%s", "%s", "%s", "%s", id FROM Subcategory s WHERE s.code = "%s";
+                                   """.formatted(course.getTitle(), course.getCode(), course.getTimeToFinishInHours(), course.isDisabled(),
+                                    course.getTargetAudience(), course.getInstructor(), course.getProgram(), course.getSkills(), subcategory.getCode());
                         }
                     }
                 }
@@ -68,36 +68,36 @@ public final class SQLGenerator {
         List<Category> categories = CSVDataLoader.load(sourceDirPath.concat("/categories.csv"), (properties) -> {
 
             String title = properties[0];
-            String slug = properties[1].trim();
+            String code = properties[1].trim();
             int order = properties[2].isEmpty() ? 0 : Integer.parseInt(properties[2]);
             String description = properties[3];
             boolean disabled = !properties[4].equals("ATIVA");
             String iconPath = properties[5];
             String colorHexCode = properties[6];
 
-            return new Category(title, slug, order, description, disabled, iconPath, colorHexCode);
+            return new Category(title, code, order, description, disabled, iconPath, colorHexCode);
         });
 
-        Map<String, Category> categoriesMap = categories.stream().collect(Collectors.toMap(Category::getSlug, Function.identity()));
+        Map<String, Category> categoriesMap = categories.stream().collect(Collectors.toMap(Category::getCode, Function.identity()));
 
         List<Subcategory> subcategories = CSVDataLoader.load(sourceDirPath.concat("/subcategories.csv"), (properties) -> {
 
             String title = properties[0];
-            String slug = properties[1].trim();
+            String code = properties[1].trim();
             int order = properties[2].isEmpty() ? 0 : Integer.parseInt(properties[2]);
             String description = properties[3];
             boolean disabled = !properties[4].equals("ATIVA");
             Category parentCategory = categoriesMap.get(properties[5]);
 
-            return new Subcategory(title, slug, order, description, disabled, parentCategory);
+            return new Subcategory(title, code, order, description, disabled, parentCategory);
         });
 
-        Map<String, Subcategory> subcategoriesMap = subcategories.stream().collect(Collectors.toMap(Subcategory::getSlug, Function.identity()));
+        Map<String, Subcategory> subcategoriesMap = subcategories.stream().collect(Collectors.toMap(Subcategory::getCode, Function.identity()));
 
         List<Course> courses = CSVDataLoader.load(sourceDirPath.concat("/courses.csv"), (properties) -> {
 
             String title = properties[0];
-            String slug = properties[1].trim();
+            String code = properties[1].trim();
             int timeToFinishInHours = Integer.parseInt(properties[2]);
             boolean disabled = !properties[3].equals("PÚBLICA");
             String targetAudience = properties[4];
@@ -106,7 +106,7 @@ public final class SQLGenerator {
             String skills = properties[7];
             Subcategory subcategory = subcategoriesMap.get(properties[8]);
 
-            return new Course(title, slug, timeToFinishInHours, disabled, targetAudience, instructor, program, skills, subcategory);
+            return new Course(title, code, timeToFinishInHours, disabled, targetAudience, instructor, program, skills, subcategory);
         });
 
         return categories;

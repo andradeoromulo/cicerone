@@ -7,7 +7,7 @@ import java.util.*;
 public class Subcategory {
 
     private String title;
-    private String slug;
+    private String code;
     private String description;
     private String studyGuide;
     private boolean disabled;
@@ -18,13 +18,13 @@ public class Subcategory {
     private List<Course> courses;
 
     // Required fields for Subcategory
-    public Subcategory(String title, String slug, Category parentCategory) {
+    public Subcategory(String title, String code, Category parentCategory) {
         Validator.isNotBlankString(title);
-        Validator.isValidSlug(slug);
+        Validator.isValidCode(code);
         Validator.isNotNullObject(parentCategory);
 
         this.title = title;
-        this.slug = slug;
+        this.code = code;
         this.disabled = true;
         this.parentCategory = parentCategory;
         this.courses = new ArrayList<>();
@@ -32,8 +32,8 @@ public class Subcategory {
         parentCategory.addSubcategory(this);
     }
 
-    public Subcategory(String title, String slug, Integer order, String description, boolean disabled, Category parentCategory) {
-        this(title, slug, parentCategory);
+    public Subcategory(String title, String code, Integer order, String description, boolean disabled, Category parentCategory) {
+        this(title, code, parentCategory);
         this.order = order;
         this.description = description;
         this.disabled = disabled;
@@ -47,8 +47,8 @@ public class Subcategory {
         return description;
     }
 
-    public String getSlug() {
-        return slug;
+    public String getCode() {
+        return code;
     }
 
     public boolean isDisabled() {

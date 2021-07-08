@@ -3,12 +3,11 @@ package com.cicerone.model;
 import com.cicerone.util.validation.Validator;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Category {
 
     private String title;
-    private String slug;
+    private String code;
     private String description;
     private String studyGuide;
     private boolean disabled;
@@ -18,18 +17,18 @@ public class Category {
     private List<Subcategory> subcategories;
 
     // Required fields for Category
-    public Category(String title, String slug) {
+    public Category(String title, String code) {
         Validator.isNotBlankString(title);
-        Validator.isValidSlug(slug);
+        Validator.isValidCode(code);
 
         this.title = title;
-        this.slug = slug;
+        this.code = code;
         this.disabled = true;
         this.subcategories = new ArrayList<>();
     }
 
-    public Category(String title, String slug, Integer order, String description, boolean disabled, String iconPath, String colorHexCode) {
-        this(title, slug);
+    public Category(String title, String code, Integer order, String description, boolean disabled, String iconPath, String colorHexCode) {
+        this(title, code);
         this.order = order;
         this.description = description;
         this.disabled = disabled;
@@ -53,8 +52,8 @@ public class Category {
         return colorHexCode;
     }
 
-    public String getSlug() {
-        return slug;
+    public String getCode() {
+        return code;
     }
 
     public Integer getOrder() {
