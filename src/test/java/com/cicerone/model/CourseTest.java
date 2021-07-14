@@ -18,13 +18,13 @@ class CourseTest {
             "Introduction to Java,-java-oo,6,João Santos,java-intro",
             "Introduction to Java,java-oo-,6,João Santos,java-intro"
     })
-    public void Course__should_throw_exception_in_case_of_invalid_arguments(String title, String slug, int timeToFinishInHours, String instructor, String subcategoryReference) {
+    public void Course__should_throw_exception_in_case_of_invalid_arguments(String title, String code, int timeToFinishInHours, String instructor, String subcategoryReference) {
 
         Category category = new Category("Java", "java");
         Subcategory subcategory = new Subcategory("Introdução a Java", "java-intro", category);
 
         assertThrows(IllegalArgumentException.class, () -> {
-            new Course(title, slug, timeToFinishInHours, instructor, subcategoryReference.equals("java-intro") ? subcategory : null);
+            new Course(title, code, timeToFinishInHours, instructor, subcategoryReference.equals("java-intro") ? subcategory : null);
         });
 
     }

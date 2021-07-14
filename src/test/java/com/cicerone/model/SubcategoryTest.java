@@ -17,12 +17,12 @@ class SubcategoryTest {
             "Introdução a Java,-java-intro,java",
             "Introdução a Java,java-intro-,java"
     })
-    public void Subcategory__should_throw_exception_in_case_of_invalid_arguments(String title, String slug, String categoryReference) {
+    public void Subcategory__should_throw_exception_in_case_of_invalid_arguments(String title, String code, String categoryReference) {
 
         Category category = new Category("Java", "java");
 
         assertThrows(IllegalArgumentException.class, () -> {
-            new Subcategory(title, slug, categoryReference.equals("java") ? category : null);
+            new Subcategory(title, code, categoryReference.equals("java") ? category : null);
         });
 
     }

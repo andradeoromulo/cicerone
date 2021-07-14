@@ -83,7 +83,6 @@ public final class HTMLGenerator {
             writer.println(htmlTemplate);
 
         } catch (IOException e) {
-            e.printStackTrace();
             throw new RuntimeException(String.format("Not possible to complete HTML Generation: %s.", e.getMessage()));
         }
 

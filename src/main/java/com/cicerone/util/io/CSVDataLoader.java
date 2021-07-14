@@ -27,7 +27,6 @@ public final class CSVDataLoader {
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
             throw new RuntimeException(String.format("Error while loading CSV file data: %s.", e.getMessage()));
         }
 
