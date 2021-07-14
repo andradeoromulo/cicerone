@@ -27,6 +27,7 @@ public class DeletionApp {
 
                 preparedStatement.setString(1, code);
                 preparedStatement.execute();
+                connection.commit();
 
                 int modifiedLines = preparedStatement.getUpdateCount();
                 System.out.println("Deleção executada com sucesso. Número de linhas modificadas: " + modifiedLines);
@@ -35,8 +36,6 @@ public class DeletionApp {
                 connection.rollback();
                 throw new RuntimeException(e.getMessage());
             }
-
-            connection.commit();
 
         } catch(SQLException e) {
             throw new RuntimeException(e.getMessage());

@@ -23,17 +23,15 @@ public class UpdateApp {
             try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
                 preparedStatement.execute();
+                connection.commit();
 
                 int modifiedLines = preparedStatement.getUpdateCount();
-
                 System.out.println("Atualização executada com sucesso. Número de linhas modificadas: " + modifiedLines);
 
             } catch (SQLException e) {
                 connection.rollback();
                 throw new RuntimeException(e.getMessage());
             }
-
-            connection.commit();
 
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());

@@ -29,12 +29,12 @@ public class InsertionApp {
                     throw new RuntimeException("An error occurred while saving new course");
                 }
 
+                connection.commit();
+
             } catch(SQLException e) {
                 connection.rollback();
                 throw new RuntimeException(e.getMessage());
             }
-
-            connection.commit();
 
         }catch (SQLException e) {
             throw new RuntimeException(e.getMessage());

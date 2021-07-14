@@ -27,6 +27,7 @@ public class ReportApp {
             try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
                 preparedStatement.execute();
+                connection.commit();
 
                 ResultSet resultSet = preparedStatement.getResultSet();
 
@@ -40,12 +41,11 @@ public class ReportApp {
                               """.formatted(resultSet.getLong(1), resultSet.getString(2),
                             resultSet.getInt(3), resultSet.getString(4), resultSet.getLong(5));
                 }
+
             } catch (SQLException e) {
                 connection.rollback();
                 throw new RuntimeException(e.getMessage());
             }
-
-            connection.commit();
 
             String htmlTemplate = """
                                   <html lang="pt-br">
