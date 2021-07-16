@@ -2,7 +2,7 @@ package com.cicerone.main.apps;
 
 import com.cicerone.db.dao.CourseDAO;
 
-public class DeletionApp {
+public class CourseDeletionApp {
 
     public static void main(String[] args) {
 

@@ -8,12 +8,12 @@ import com.cicerone.model.Subcategory;
 
 import java.sql.*;
 
-public class InsertionApp {
+public class CourseInsertionApp {
 
     public static void main(String[] args) {
 
         SubcategoryDAO subcategoryDAO = new SubcategoryDAO();
-        Subcategory subcategory = subcategoryDAO.findByCode("java");
+        Subcategory subcategory = subcategoryDAO.findByCode("java").orElseThrow(() -> new RuntimeException("Subcategory not found"));
 
         Course course = new Course("Java: Reflection API", "java-reflection", 8, "Paulo Silveira", subcategory);
         CourseDAO courseDAO = new CourseDAO();

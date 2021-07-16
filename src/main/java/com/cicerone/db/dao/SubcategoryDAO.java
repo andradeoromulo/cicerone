@@ -1,31 +1,25 @@
 package com.cicerone.db.dao;
 
-import com.cicerone.db.factory.ConnectionFactory;
 import com.cicerone.exceptions.DAOException;
-import com.cicerone.model.Category;
 import com.cicerone.model.Subcategory;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
+
+import static com.cicerone.db.TransactionTemplate.doInTransactionWithResult;
 
 public class SubcategoryDAO {
 
-    public Subcategory findByCode(String code) {
+    public Optional<Subcategory> findByCode(String code) {
 
-        try(Connection connection = ConnectionFactory.getConnection()) {
-
-            connection.setAutoCommit(false);
-
-            Subcategory subcategory;
-            String sql = """
-                         SELECT s.id, s.title, s.category_id
+        String sql = """
+                         SELECT s.id
                             FROM Subcategory s 
                             WHERE s.code = ?
                          """;
 
-            try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+       return doInTransactionWithResult(sql, preparedStatement -> {
 
                 preparedStatement.setString(1, code);
                 preparedStatement.execute();
@@ -34,31 +28,15 @@ public class SubcategoryDAO {
 
                 if(resultSet.next()) {
                     Long id = resultSet.getLong(1);
-                    String title = resultSet.getString(2);
-                    Long categoryId = resultSet.getLong(3);
 
-                    CategoryDAO categoryDAO = new CategoryDAO();
-                    Category parentCategory = categoryDAO.findById(categoryId);
-
-                    subcategory = new Subcategory(title, code, parentCategory);
+                    Subcategory subcategory = new Subcategory();
                     subcategory.setId(id);
+                    return Optional.of(subcategory);
+
                 }
-                else {
-                    throw new SQLException();
-                }
+                return Optional.empty();
 
-                connection.commit();
-
-            } catch(SQLException | DAOException e) {
-                connection.rollback();
-                throw new DAOException();
-            }
-
-            return subcategory;
-
-        } catch (SQLException e) {
-            throw new DAOException();
-        }
+        } );
 
     }
 

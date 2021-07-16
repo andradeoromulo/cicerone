@@ -18,6 +18,10 @@ public class Subcategory {
     private Category parentCategory;
     private List<Course> courses;
 
+    @Deprecated
+    public Subcategory () {
+    }
+
     // Required fields for Subcategory
     public Subcategory(String title, String code, Category parentCategory) {
         Validator.isNotBlankString(title);

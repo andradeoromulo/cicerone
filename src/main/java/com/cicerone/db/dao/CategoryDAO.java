@@ -1,29 +1,25 @@
 package com.cicerone.db.dao;
 
-import com.cicerone.db.factory.ConnectionFactory;
 import com.cicerone.exceptions.DAOException;
 import com.cicerone.model.Category;
-import com.cicerone.model.Subcategory;
 
-import java.sql.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Optional;
+
+import static com.cicerone.db.TransactionTemplate.doInTransactionWithResult;
 
 public class CategoryDAO {
 
-    public Category findById(Long id) {
+    public Optional<Category> findById(Long id) {
 
-        try(Connection connection = ConnectionFactory.getConnection()) {
-
-            connection.setAutoCommit(false);
-
-            Category category;
-            String sql = """
+        String sql = """
                          SELECT c.title, c.code
-                            FROM Category c 
+                            FROM Category c
                             WHERE c.id = ?
                          """;
 
-            try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-
+        return doInTransactionWithResult(sql, preparedStatement -> {
                 preparedStatement.setLong(1, id);
                 preparedStatement.execute();
 
@@ -33,25 +29,13 @@ public class CategoryDAO {
                     String title = resultSet.getString(1);
                     String code = resultSet.getString(2);
 
-                    category = new Category(title, code);
+                    Category category = new Category(title, code);
                     category.setId(id);
-                }
-                else {
-                    throw new SQLException();
+                    return Optional.of(category);
                 }
 
-                connection.commit();
-
-            } catch(SQLException e) {
-                connection.rollback();
-                throw new DAOException();
-            }
-
-            return category;
-
-        } catch (SQLException e) {
-            throw new DAOException();
-        }
+                return Optional.empty();
+        });
 
     }
 

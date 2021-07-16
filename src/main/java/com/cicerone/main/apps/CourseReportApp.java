@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-public class ReportApp {
+public class CourseReportApp {
 
     public static void main(String[] args) {
 

@@ -19,9 +19,8 @@ public class CourseDAO {
 
             List<Course> enabledCourses = new ArrayList<>();
             String sql = """
-                         SELECT c.id, c.title, c.code, c.time_to_finish_in_hours, c.instructor, s.code
+                         SELECT c.id, c.title, c.code, c.time_to_finish_in_hours, c.instructor, c.subcategory_id
                             FROM Course c
-                                JOIN Subcategory s ON c.subcategory_id = s.id
                             WHERE c.disabled = false;
                          """;
 
@@ -36,10 +35,9 @@ public class CourseDAO {
                     String code = resultSet.getString(3);
                     int timetoFinishInHours = resultSet.getInt(4);
                     String instructor = resultSet.getString(5);
-                    String subcategoryCode = resultSet.getString(6);
-
-                    SubcategoryDAO subcategoryDAO = new SubcategoryDAO();
-                    Subcategory subcategory = subcategoryDAO.findByCode(subcategoryCode);
+                    Long subcategoryId = resultSet.getLong(6);
+                    Subcategory subcategory = new Subcategory();
+                    subcategory.setId(subcategoryId);
 
                     Course course = new Course(title, code, timetoFinishInHours, instructor, subcategory);
                     course.setId(id);
