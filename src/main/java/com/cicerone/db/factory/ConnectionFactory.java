@@ -15,19 +15,9 @@ public final class ConnectionFactory {
 
     public static Connection getConnection() throws SQLException {
 
-        if(dataSource == null) dataSource = initializeDataSource();
+        if(dataSource == null) dataSource = new ComboPooledDataSource();
 
         return dataSource.getConnection();
-    }
-
-    private static ComboPooledDataSource initializeDataSource() {
-        ComboPooledDataSource pool = new ComboPooledDataSource();
-        pool.setJdbcUrl("jdbc:mysql://localhost/cicerone?useTimezone=true&serverTimezone=UTC");
-        pool.setUser("root");
-        pool.setPassword("");
-        pool.setMaxPoolSize(10);
-
-        return pool;
     }
 
 }
