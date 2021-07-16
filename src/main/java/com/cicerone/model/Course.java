@@ -4,6 +4,7 @@ import com.cicerone.util.validation.Validator;
 
 public class Course {
 
+    private Long id;
     private String title;
     private String code;
     private Integer timeToFinishInHours;
@@ -40,9 +41,19 @@ public class Course {
         this.skills = skills;
     }
 
-    public String getSubcategorySlug() {
-        return this.subcategory.getCode();
+    public Long getId() {
+        return id;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getSubcategoryId() {
+        return subcategory.getId();
+    }
+
+    public String getSubcategoryCode() { return subcategory.getCode(); }
 
     public Integer getTimeToFinishInHours() {
         return timeToFinishInHours;
@@ -52,7 +63,7 @@ public class Course {
         return title;
     }
 
-    public Object getCode() {
+    public String getCode() {
         return code;
     }
 

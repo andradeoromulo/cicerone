@@ -57,7 +57,6 @@ public final class SQLGenerator {
             writer.println(sql);
 
         } catch (IOException e) {
-            e.printStackTrace();
             throw new RuntimeException(String.format("Not possible to complete SQL Generation: %s.", e.getMessage()));
         }
 

@@ -4,6 +4,7 @@ import com.cicerone.util.validation.Validator;
 
 public class AnswerAlternative {
 
+    private Long id;
     private String description;
     private Integer order;
     private boolean correct;

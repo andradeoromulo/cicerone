@@ -16,9 +16,9 @@ class CategoryTest {
             "Introdução a Java,-java-intro",
             "Introdução a Java,java-intro-"
     })
-    public void Category__should_throw_exception_in_case_of_invalid_arguments(String title, String slug) {
+    public void Category__should_throw_exception_in_case_of_invalid_arguments(String title, String code) {
 
-        assertThrows(IllegalArgumentException.class, () -> new Category(title, slug));
+        assertThrows(IllegalArgumentException.class, () -> new Category(title, code));
 
     }
 

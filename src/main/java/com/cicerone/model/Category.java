@@ -6,6 +6,7 @@ import java.util.*;
 
 public class Category {
 
+    private Long id;
     private String title;
     private String code;
     private String description;
@@ -34,6 +35,14 @@ public class Category {
         this.disabled = disabled;
         this.iconPath = iconPath;
         this.colorHexCode = colorHexCode;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getTitle() {
