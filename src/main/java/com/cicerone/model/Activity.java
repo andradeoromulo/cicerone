@@ -4,6 +4,7 @@ import com.cicerone.util.validation.Validator;
 
 public abstract class Activity {
 
+    private Long id;
     private String title;
     private String code;
     private boolean disabled;

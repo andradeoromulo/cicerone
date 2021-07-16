@@ -4,6 +4,7 @@ import com.cicerone.util.validation.Validator;
 
 public class Section {
 
+    private Long id;
     private String title;
     private String code;
     private Integer order;

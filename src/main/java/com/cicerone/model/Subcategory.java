@@ -6,6 +6,7 @@ import java.util.*;
 
 public class Subcategory {
 
+    private Long id;
     private String title;
     private String code;
     private String description;
@@ -37,6 +38,10 @@ public class Subcategory {
         this.order = order;
         this.description = description;
         this.disabled = disabled;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getTitle() {
@@ -75,4 +80,7 @@ public class Subcategory {
         return order;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 }
