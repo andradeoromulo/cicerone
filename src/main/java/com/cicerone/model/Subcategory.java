@@ -2,21 +2,35 @@ package com.cicerone.model;
 
 import com.cicerone.util.validation.Validator;
 
+import javax.persistence.*;
 import java.util.*;
 
+@Entity
 public class Subcategory {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
     private String code;
     private String description;
     private String studyGuide;
     private boolean disabled;
-    private Integer order;
     private String iconPath;
     private String colorHexCode;
+
+    @Column(name = "order_position")
+    private Integer order;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
     private Category parentCategory;
+
+    @OneToMany(mappedBy = "subcategory")
     private List<Course> courses;
+
+    @Deprecated
+    public Subcategory(){};
 
     // Required fields for Subcategory
     public Subcategory(String title, String code, Category parentCategory) {
@@ -40,6 +54,22 @@ public class Subcategory {
         this.disabled = disabled;
     }
 
+    public Integer getCourseAmount() {
+        return courses.size();
+    }
+
+    public Integer getTimeToFinishInHours() {
+        return courses.stream().mapToInt(Course::getTimeToFinishInHours).sum();
+    }
+
+    public List<Course> getCourses() {
+        return Collections.unmodifiableList(courses);
+    }
+
+    public void addCourse(Course course) {
+        courses.add(course);
+    }
+
     public Long getId() {
         return id;
     }
@@ -58,22 +88,6 @@ public class Subcategory {
 
     public boolean isDisabled() {
         return disabled;
-    }
-
-    public Integer getCourseAmount() {
-        return courses.size();
-    }
-
-    public Integer getTimeToFinishInHours() {
-        return courses.stream().mapToInt(Course::getTimeToFinishInHours).sum();
-    }
-
-    public List<Course> getCourses() {
-        return Collections.unmodifiableList(courses);
-    }
-
-    public void addCourse(Course course) {
-        courses.add(course);
     }
 
     public Object getOrder() {

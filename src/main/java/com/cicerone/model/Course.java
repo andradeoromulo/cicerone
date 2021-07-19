@@ -2,8 +2,13 @@ package com.cicerone.model;
 
 import com.cicerone.util.validation.Validator;
 
+import javax.persistence.*;
+
+@Entity
 public class Course {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
     private String code;
@@ -13,7 +18,12 @@ public class Course {
     private String instructor;
     private String program;
     private String skills;
+
+    @ManyToOne
     private Subcategory subcategory;
+
+    @Deprecated
+    public Course(){};
 
     // Required fields only
     public Course(String title, String code, Integer timeToFinishInHours, String instructor, Subcategory subcategory) {

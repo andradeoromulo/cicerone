@@ -2,20 +2,32 @@ package com.cicerone.model;
 
 import com.cicerone.util.validation.Validator;
 
+import javax.persistence.*;
 import java.util.*;
 
+@Entity
 public class Category {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String title;
     private String code;
     private String description;
     private String studyGuide;
     private boolean disabled;
-    private Integer order;
     private String iconPath;
     private String colorHexCode;
+
+    @Column(name = "order_position")
+    private Integer order;
+
+    @OneToMany(mappedBy = "parentCategory")
     private List<Subcategory> subcategories;
+
+    @Deprecated
+    public Category(){};
 
     // Required fields for Category
     public Category(String title, String code) {
@@ -35,6 +47,22 @@ public class Category {
         this.disabled = disabled;
         this.iconPath = iconPath;
         this.colorHexCode = colorHexCode;
+    }
+
+    public Integer getCourseAmount() {
+        return subcategories.stream().mapToInt(Subcategory::getCourseAmount).sum();
+    }
+
+    public Integer getTimeToFinishInHours() {
+        return subcategories.stream().mapToInt(Subcategory::getTimeToFinishInHours).sum();
+    }
+
+    public List<Subcategory> getSubcategories() {
+        return Collections.unmodifiableList(this.subcategories);
+    }
+
+    public void addSubcategory(Subcategory subcategory) {
+        this.subcategories.add(subcategory);
     }
 
     public void setId(Long id) {
@@ -71,22 +99,6 @@ public class Category {
 
     public boolean isDisabled() {
         return disabled;
-    }
-
-    public Integer getCourseAmount() {
-        return subcategories.stream().mapToInt(Subcategory::getCourseAmount).sum();
-    }
-
-    public Integer getTimeToFinishInHours() {
-        return subcategories.stream().mapToInt(Subcategory::getTimeToFinishInHours).sum();
-    }
-
-    public List<Subcategory> getSubcategories() {
-        return Collections.unmodifiableList(this.subcategories);
-    }
-
-    public void addSubcategory(Subcategory subcategory) {
-        this.subcategories.add(subcategory);
     }
 
 }
