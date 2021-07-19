@@ -20,7 +20,7 @@ public class Category {
     private String iconPath;
     private String colorHexCode;
 
-    @Column(name = "order_position")
+    @Column(name = "orderPosition")
     private Integer order;
 
     @OneToMany(mappedBy = "parentCategory")

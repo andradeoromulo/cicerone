@@ -16,10 +16,15 @@ public class Course {
     private boolean disabled;
     private String targetAudience;
     private String instructor;
-    private String program;
+
+    @Column(columnDefinition = "TEXT")
     private String skills;
 
+    @Column(columnDefinition = "TEXT")
+    private String program;
+
     @ManyToOne
+    @JoinColumn(name = "subcategoryId")
     private Subcategory subcategory;
 
     @Deprecated

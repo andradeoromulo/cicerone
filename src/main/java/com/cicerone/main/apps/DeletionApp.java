@@ -6,10 +6,11 @@ public class DeletionApp {
 
     public static void main(String[] args) {
 
+        /*
         CourseDAO courseDAO = new CourseDAO();
         courseDAO.deleteByCode("java-reflection");
 
-        System.out.println("\nCurso excluído com sucesso");
+        System.out.println("\nCurso excluído com sucesso");*/
 
     }
 

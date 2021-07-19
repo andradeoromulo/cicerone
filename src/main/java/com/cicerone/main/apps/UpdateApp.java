@@ -10,12 +10,12 @@ import java.sql.SQLException;
 public class UpdateApp {
 
     public static void main(String[] args) {
-
+        /*
         CourseDAO courseDAO = new CourseDAO();
         int modifiedLines = courseDAO.updateAllAsEnabled();
 
         System.out.println("\nAtualização realização com sucesso: " + modifiedLines + " linhas modificadas");
-
+        */
     }
 
 }

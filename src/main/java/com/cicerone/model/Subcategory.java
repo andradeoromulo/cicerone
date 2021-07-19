@@ -19,11 +19,11 @@ public class Subcategory {
     private String iconPath;
     private String colorHexCode;
 
-    @Column(name = "order_position")
+    @Column(name = "orderPosition")
     private Integer order;
 
     @ManyToOne
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "categoryId")
     private Category parentCategory;
 
     @OneToMany(mappedBy = "subcategory")

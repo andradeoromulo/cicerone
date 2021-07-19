@@ -9,11 +9,11 @@ CREATE TABLE Category(
     title VARCHAR(100) NOT NULL,
     code VARCHAR(100) NOT NULL UNIQUE,
     description VARCHAR(250),
-    study_guide VARCHAR(250),
+    studyGuide VARCHAR(250),
     disabled BOOLEAN,
-    order_position INTEGER,
-    icon_path VARCHAR(100),
-    color_hex_code VARCHAR(7),
+    orderPosition INTEGER,
+    iconPath VARCHAR(100),
+    colorHexCode VARCHAR(7),
     PRIMARY KEY (id)
 );
 
@@ -22,14 +22,14 @@ CREATE TABLE Subcategory(
     title VARCHAR(100) NOT NULL,
     code VARCHAR(100) NOT NULL UNIQUE,
     description VARCHAR(250),
-    study_guide VARCHAR(250),
+    studyGuide VARCHAR(250),
     disabled BOOLEAN,
-    order_position INTEGER,
-    icon_path VARCHAR(100),
-    color_hex_code VARCHAR(7),
-    category_id BIGINT NOT NULL,
+    orderPosition INTEGER,
+    iconPath VARCHAR(100),
+    colorHexCode VARCHAR(7),
+    categoryId BIGINT NOT NULL,
     PRIMARY KEY (id),
-    CONSTRAINT fk_subcategory_category FOREIGN KEY (category_id)
+    CONSTRAINT fk_subcategory_category FOREIGN KEY (categoryId)
         REFERENCES Category(id)
 );
 
@@ -37,15 +37,15 @@ CREATE TABLE Course(
     id BIGINT AUTO_INCREMENT,
     title VARCHAR(100) NOT NULL,
     code VARCHAR(100) NOT NULL UNIQUE,
-    time_to_finish_in_hours INTEGER NOT NULL,
+    timeToFinishInHours INTEGER NOT NULL,
     disabled BOOLEAN,
-    target_audience VARCHAR(250),
+    targetAudience VARCHAR(250),
     instructor VARCHAR(100) NOT NULL,
     program TEXT,
     skills TEXT,
-    subcategory_id BIGINT NOT NULL,
+    subcategoryId BIGINT NOT NULL,
     PRIMARY KEY (id),
-    CONSTRAINT fk_course_subcategory FOREIGN KEY (subcategory_id)
+    CONSTRAINT fk_course_subcategory FOREIGN KEY (subcategoryId)
         REFERENCES Subcategory(id)
 );
 
@@ -53,12 +53,12 @@ CREATE TABLE Section(
     id BIGINT AUTO_INCREMENT,
     title VARCHAR(100) NOT NULL,
     code VARCHAR(100) NOT NULL UNIQUE,
-    order_position INTEGER,
+    orderPosition INTEGER,
     disabled BOOLEAN,
     exam BOOLEAN,
-    course_id BIGINT NOT NULL,
+    courseId BIGINT NOT NULL,
     PRIMARY KEY (id),
-    CONSTRAINT fk_section_course FOREIGN KEY (course_id)
+    CONSTRAINT fk_section_course FOREIGN KEY (courseId)
         REFERENCES Course(id)
 );
 
@@ -66,12 +66,12 @@ CREATE TABLE Explanation(
     id BIGINT AUTO_INCREMENT,
     title VARCHAR(100) NOT NULL,
     code VARCHAR(100) NOT NULL UNIQUE,
-    order_position INTEGER,
+    orderPosition INTEGER,
     disabled BOOLEAN,
-    explanation_text TEXT NOT NULL,
-    section_id BIGINT NOT NULL,
+    explanationText TEXT NOT NULL,
+    sectionId BIGINT NOT NULL,
     PRIMARY KEY (id),
-    CONSTRAINT fk_explanation_section FOREIGN KEY (section_id)
+    CONSTRAINT fk_explanation_section FOREIGN KEY (sectionId)
         REFERENCES Section(id)
 );
 
@@ -79,13 +79,13 @@ CREATE TABLE Video(
     id BIGINT AUTO_INCREMENT,
     title VARCHAR(100) NOT NULL,
     code VARCHAR(100) NOT NULL UNIQUE,
-    order_position INTEGER,
+    orderPosition INTEGER,
     disabled BOOLEAN,
-    duration_in_minutes INTEGER,
+    durationInMinutes INTEGER,
     transcription TEXT,
-    section_id BIGINT NOT NULL,
+    sectionId BIGINT NOT NULL,
     PRIMARY KEY (id),
-    CONSTRAINT fk_video_section FOREIGN KEY (section_id)
+    CONSTRAINT fk_video_section FOREIGN KEY (sectionId)
         REFERENCES Section(id)
 );
 
@@ -93,13 +93,13 @@ CREATE TABLE Question(
     id BIGINT AUTO_INCREMENT,
     title VARCHAR(100) NOT NULL,
     code VARCHAR(100) NOT NULL UNIQUE,
-    order_position INTEGER,
+    orderPosition INTEGER,
     disabled BOOLEAN,
-    question_text TEXT NOT NULL,
+    questionText TEXT NOT NULL,
     type INTEGER NOT NULL,
-    section_id BIGINT NOT NULL,
+    sectionId BIGINT NOT NULL,
     PRIMARY KEY (id),
-    CONSTRAINT fk_question_section FOREIGN KEY (section_id)
+    CONSTRAINT fk_question_section FOREIGN KEY (sectionId)
         REFERENCES Section(id)
 );
 
@@ -107,10 +107,10 @@ CREATE TABLE AnswerAlternative(
     id BIGINT AUTO_INCREMENT,
     description TEXT NOT NULL,
     explanation TEXT,
-    order_position INTEGER,
+    orderPosition INTEGER,
     correct TINYINT NOT NULL,
-    question_id BIGINT NOT NULL,
+    questionId BIGINT NOT NULL,
     PRIMARY KEY (id),
-    CONSTRAINT fk_answer_alternative_question FOREIGN KEY (question_id)
+    CONSTRAINT fk_answer_alternative_question FOREIGN KEY (questionId)
         REFERENCES Section(id)
 );

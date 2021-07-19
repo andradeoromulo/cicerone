@@ -12,6 +12,7 @@ public class ReportApp {
 
     public static void main(String[] args) {
 
+        /*
         try (PrintWriter writer = new PrintWriter(new FileWriter(("src/main/resources/html/courses.html"), false))) {
 
             CourseDAO courseDAO = new CourseDAO();
@@ -51,7 +52,7 @@ public class ReportApp {
 
         } catch (IOException e) {
             throw new RuntimeException(e.getMessage());
-        }
+        }*/
 
     }
 
