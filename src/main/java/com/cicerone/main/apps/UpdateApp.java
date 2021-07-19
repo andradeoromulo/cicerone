@@ -1,21 +1,26 @@
 package com.cicerone.main.apps;
 
 import com.cicerone.db.dao.CourseDAO;
-import com.cicerone.db.factory.ConnectionFactory;
+import com.cicerone.util.db.JPAUtil;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import javax.persistence.EntityManager;
 
 public class UpdateApp {
 
     public static void main(String[] args) {
-        /*
-        CourseDAO courseDAO = new CourseDAO();
-        int modifiedLines = courseDAO.updateAllAsEnabled();
+
+        EntityManager em = JPAUtil.getEntityManager();
+        CourseDAO courseDAO = new CourseDAO(em);
+
+        em.getTransaction().begin();
+
+        int modifiedLines = courseDAO.setAllAsEnabled();
+
+        em.getTransaction().commit();
+        em.close();
 
         System.out.println("\nAtualização realização com sucesso: " + modifiedLines + " linhas modificadas");
-        */
+
     }
 
 }

@@ -3,6 +3,7 @@ package com.cicerone.db.dao;
 import com.cicerone.model.Course;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 
 public class CourseDAO {
 
@@ -14,6 +15,39 @@ public class CourseDAO {
 
     public void save(Course course) {
         em.persist(course);
+    }
+
+    public Course findByCode(String code) {
+
+        String jpql = "SELECT c FROM Course c WHERE c.code = :code";
+
+        return em.createQuery(jpql, Course.class)
+                .setParameter("code", code)
+                .getSingleResult();
+
+    }
+
+    public void delete(Course course) {
+        course = em.merge(course);
+        em.remove(course);
+    }
+
+    public int setAllAsEnabled() {
+
+        String jpql = "UPDATE Course c SET c.disabled = false";
+
+        return em.createQuery(jpql)
+                .executeUpdate();
+
+    }
+
+    public List<Course> findAllEnabled() {
+
+        String jpql = "SELECT c FROM Course c WHERE c.disabled = false";
+
+        return em.createQuery(jpql, Course.class)
+                .getResultList();
+
     }
 
 }
