@@ -101,4 +101,11 @@ public class Category {
         return disabled;
     }
 
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
+    }
+
+    public void setOrder(Integer order) {
+        this.order = order;
+    }
 }

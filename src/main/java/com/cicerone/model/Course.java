@@ -101,4 +101,9 @@ public class Course {
     public String getSkills() {
         return skills;
     }
+
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
+    }
 }
+

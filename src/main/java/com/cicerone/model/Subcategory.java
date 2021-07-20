@@ -97,4 +97,12 @@ public class Subcategory {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
+    }
+
+    public void setOrder(Integer order) {
+        this.order = order;
+    }
 }
