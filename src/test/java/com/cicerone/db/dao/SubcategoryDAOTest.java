@@ -2,6 +2,8 @@ package com.cicerone.db.dao;
 
 import com.cicerone.model.Category;
 import com.cicerone.model.Subcategory;
+import com.cicerone.util.builder.CategoryBuilder;
+import com.cicerone.util.builder.SubcategoryBuilder;
 import com.cicerone.util.db.JPAUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,11 +34,11 @@ class SubcategoryDAOTest {
     @Test
     public void findAllEnabled__should_fetch_in_order_enabled_subcategories_only() {
 
-        Category javaCategory = aCategory("Java", "java", false);
+        Category javaCategory = aCategory("Java", "java");
 
-        Subcategory persistenceSubcategory = aSubcategory("Java Persistence", "java-persistence", javaCategory, 2, false);
-        Subcategory ooSubcategory = aSubcategory("Java OO", "java-oo", javaCategory, 1, false);
-        Subcategory webSubcategory = aSubcategory("Java Web", "java-web", javaCategory, 0, true);
+        Subcategory persistenceSubcategory = aSubcategory("Java Persistence", "java-persistence", javaCategory, 2);
+        Subcategory ooSubcategory = aSubcategory("Java OO", "java-oo", javaCategory, 1);
+        Subcategory webSubcategory = aDisabledSubcategory("Java Web", "java-web", javaCategory, 0);
 
         List<Subcategory> enabledSubcategories = subcategoryDAO.findAllEnabled();
 
@@ -47,17 +49,22 @@ class SubcategoryDAOTest {
 
     }
 
-    private Subcategory aSubcategory(String title, String code, Category parentCategory, int order, boolean disabled) {
-        Subcategory subcategory = new Subcategory(title, code, parentCategory);
-        subcategory.setDisabled(disabled);
-        subcategory.setOrder(order);
+    private Subcategory aSubcategory(String title, String code, Category parentCategory, int order) {
+        Subcategory subcategory = new SubcategoryBuilder(title, code, parentCategory)
+                .orderedAs(order).enabled().build();
         em.persist(subcategory);
         return subcategory;
     }
 
-    private Category aCategory(String title, String code, boolean disabled) {
-        Category category = new Category(title, code);
-        category.setDisabled(disabled);
+    private Subcategory aDisabledSubcategory(String title, String code, Category parentCategory, int order) {
+        Subcategory subcategory = new SubcategoryBuilder(title, code, parentCategory)
+                .orderedAs(order).disabled().build();
+        em.persist(subcategory);
+        return subcategory;
+    }
+
+    private Category aCategory(String title, String code) {
+        Category category = new CategoryBuilder(title, code).enabled().build();
         em.persist(category);
         return category;
     }

@@ -105,5 +105,13 @@ public class Course {
     public void setDisabled(boolean disabled) {
         this.disabled = disabled;
     }
+
+    public void setInstructor(String instructor) {
+        this.instructor = instructor;
+    }
+
+    public void setTimeToFinishInHours(Integer timeToFinishInHours) {
+        this.timeToFinishInHours = timeToFinishInHours;
+    }
 }
 

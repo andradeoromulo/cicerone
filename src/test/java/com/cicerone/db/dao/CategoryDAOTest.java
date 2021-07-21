@@ -1,6 +1,7 @@
 package com.cicerone.db.dao;
 
 import com.cicerone.model.Category;
+import com.cicerone.util.builder.CategoryBuilder;
 import com.cicerone.util.db.JPAUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,9 +34,9 @@ class CategoryDAOTest {
     @Test
     public void findAllEnabled__should_fetch_in_order_enabled_categories_only() {
 
-        Category javaCategory = aCategory("Java", "java", 2, false);
-        Category phpCategory = aCategory("PHP", "php", 1, false);
-        Category pascalCategory = aCategory("Pascal", "pascal", 0,true);
+        Category javaCategory = aCategory("Java", "java", 2);
+        Category phpCategory = aCategory("PHP", "php", 1);
+        Category pascalCategory = aDisabledCategory("Pascal", "pascal", 0);
 
         List<Category> enabledCategories = categoryDAO.findAllEnabled();
 
@@ -46,10 +47,14 @@ class CategoryDAOTest {
 
     }
 
-    private Category aCategory(String title, String code, int order, boolean disabled) {
-        Category category = new Category(title, code);
-        category.setOrder(order);
-        category.setDisabled(disabled);
+    private Category aCategory(String title, String code, int order) {
+        Category category = new CategoryBuilder(title, code).enabled().orderedAs(order).build();
+        em.persist(category);
+        return category;
+    }
+
+    private Category aDisabledCategory(String title, String code, int order) {
+        Category category = new CategoryBuilder(title, code).disabled().orderedAs(order).build();
         em.persist(category);
         return category;
     }
