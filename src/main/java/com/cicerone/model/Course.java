@@ -2,8 +2,13 @@ package com.cicerone.model;
 
 import com.cicerone.util.validation.Validator;
 
+import javax.persistence.*;
+
+@Entity
 public class Course {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
     private String code;
@@ -11,9 +16,19 @@ public class Course {
     private boolean disabled;
     private String targetAudience;
     private String instructor;
-    private String program;
+
+    @Column(columnDefinition = "TEXT")
     private String skills;
+
+    @Column(columnDefinition = "TEXT")
+    private String program;
+
+    @ManyToOne
+    @JoinColumn(name = "subcategoryId")
     private Subcategory subcategory;
+
+    @Deprecated
+    public Course(){};
 
     // Required fields only
     public Course(String title, String code, Integer timeToFinishInHours, String instructor, Subcategory subcategory) {
@@ -86,4 +101,17 @@ public class Course {
     public String getSkills() {
         return skills;
     }
+
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
+    }
+
+    public void setInstructor(String instructor) {
+        this.instructor = instructor;
+    }
+
+    public void setTimeToFinishInHours(Integer timeToFinishInHours) {
+        this.timeToFinishInHours = timeToFinishInHours;
+    }
 }
+

@@ -29,7 +29,7 @@ public final class SQLGenerator {
 
                 sql += """
                        \n-- Category %s
-                       INSERT INTO Category (title, code, order_position, description, disabled, icon_path, color_hex_code)
+                       INSERT INTO Category (title, code, orderPosition, description, disabled, iconPath, colorHexCode)
                        \tVALUES ("%s", "%s", %d, "%s", %b, "%s", "%s");
                        """.formatted(category.getTitle(), category.getTitle(), category.getCode(), category.getOrder(),
                         category.getDescription(), category.isDisabled(), category.getIconPath(), category.getColorHexCode());
@@ -37,7 +37,7 @@ public final class SQLGenerator {
                 for(Subcategory subcategory : category.getSubcategories()) {
 
                     sql += """
-                           \nINSERT INTO Subcategory (title, code, order_position, description, disabled, category_id)
+                           \nINSERT INTO Subcategory (title, code, orderPosition, description, disabled, categoryId)
                            \tSELECT "%s", "%s", %d, "%s", %b, id FROM Category c WHERE c.code = "%s";
                            """.formatted(subcategory.getTitle(), subcategory.getCode(), subcategory.getOrder(),
                             subcategory.getDescription(), subcategory.isDisabled(), category.getCode());
@@ -45,7 +45,7 @@ public final class SQLGenerator {
                     if(subcategory.getCourses().size() > 0) {
                         for(Course course : subcategory.getCourses()) {
                             sql += """
-                                   \nINSERT INTO Course (title, code, time_to_finish_in_hours, disabled, target_audience, instructor, program, skills, subcategory_id)
+                                   \nINSERT INTO Course (title, code, timeToFinishInHours, disabled, targetAudience, instructor, program, skills, subcategoryId)
                                    \tSELECT "%s", "%s", %d, %b, "%s", "%s", "%s", "%s", id FROM Subcategory s WHERE s.code = "%s";
                                    """.formatted(course.getTitle(), course.getCode(), course.getTimeToFinishInHours(), course.isDisabled(),
                                     course.getTargetAudience(), course.getInstructor(), course.getProgram(), course.getSkills(), subcategory.getCode());

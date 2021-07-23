@@ -1,167 +1,52 @@
 package com.cicerone.db.dao;
 
-import com.cicerone.db.factory.ConnectionFactory;
-import com.cicerone.exceptions.DAOException;
 import com.cicerone.model.Course;
-import com.cicerone.model.Subcategory;
 
-import java.sql.*;
-import java.util.ArrayList;
+import javax.persistence.EntityManager;
 import java.util.List;
 
 public class CourseDAO {
 
-    public List<Course> findAllEnabled() {
+    private EntityManager em;
 
-        try(Connection connection = ConnectionFactory.getConnection()) {
-
-            connection.setAutoCommit(false);
-
-            List<Course> enabledCourses = new ArrayList<>();
-            String sql = """
-                         SELECT c.id, c.title, c.code, c.time_to_finish_in_hours, c.instructor, s.code
-                            FROM Course c
-                                JOIN Subcategory s ON c.subcategory_id = s.id
-                            WHERE c.disabled = false;
-                         """;
-
-            try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-
-                preparedStatement.execute();
-                ResultSet resultSet = preparedStatement.getResultSet();
-
-                while(resultSet.next()) {
-                    Long id = resultSet.getLong(1);
-                    String title = resultSet.getString(2);
-                    String code = resultSet.getString(3);
-                    int timetoFinishInHours = resultSet.getInt(4);
-                    String instructor = resultSet.getString(5);
-                    String subcategoryCode = resultSet.getString(6);
-
-                    SubcategoryDAO subcategoryDAO = new SubcategoryDAO();
-                    Subcategory subcategory = subcategoryDAO.findByCode(subcategoryCode);
-
-                    Course course = new Course(title, code, timetoFinishInHours, instructor, subcategory);
-                    course.setId(id);
-                    enabledCourses.add(course);
-                }
-
-                connection.commit();
-
-            } catch (SQLException | DAOException e) {
-                connection.rollback();
-                throw new DAOException();
-            }
-
-            return enabledCourses;
-
-        } catch (SQLException e) {
-            throw new DAOException();
-        }
-
+    public CourseDAO(EntityManager em) {
+        this.em = em;
     }
 
     public void save(Course course) {
+        em.persist(course);
+    }
 
-        try(Connection connection = ConnectionFactory.getConnection()) {
+    public Course findByCode(String code) {
 
-            connection.setAutoCommit(false);
+        String jpql = "SELECT c FROM Course c WHERE c.code = :code";
 
-            String sql = """
-                         INSERT INTO Course (title, code, time_to_finish_in_hours, disabled, instructor, subcategory_id)
-                            VALUES (?, ?, ?, ?, ?, ?)
-                         """;
+        return em.createQuery(jpql, Course.class)
+                .setParameter("code", code)
+                .getSingleResult();
 
-            try(PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+    }
 
-                preparedStatement.setString(1, course.getTitle());
-                preparedStatement.setString(2, course.getCode());
-                preparedStatement.setInt(3, course.getTimeToFinishInHours());
-                preparedStatement.setBoolean(4, course.isDisabled());
-                preparedStatement.setString(5, course.getInstructor());
-                preparedStatement.setLong(6, course.getSubcategoryId());
-
-                preparedStatement.execute();
-
-                ResultSet resultSet = preparedStatement.getGeneratedKeys();
-
-                if(resultSet.next()) {
-                    course.setId(resultSet.getLong(1));
-                } else {
-                    throw new SQLException();
-                }
-
-                connection.commit();
-
-            } catch(SQLException | DAOException e) {
-                connection.rollback();
-                throw new DAOException();
-            }
-
-        } catch (SQLException e) {
-            throw new DAOException();
-        }
-
+    public void delete(Course course) {
+        course = em.merge(course);
+        em.remove(course);
     }
 
     public int updateAllAsEnabled() {
 
-        try(Connection connection = ConnectionFactory.getConnection()) {
+        String jpql = "UPDATE Course c SET c.disabled = false";
 
-            connection.setAutoCommit(false);
-
-            int modifiedLines = 0;
-            String sql = """
-                         UPDATE Course
-                            SET disabled = false;
-                         """;
-
-            try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-
-                preparedStatement.execute();
-                connection.commit();
-
-                modifiedLines = preparedStatement.getUpdateCount();
-
-            } catch(SQLException e) {
-                connection.rollback();
-                throw new DAOException();
-            }
-
-            return modifiedLines;
-
-        } catch (SQLException e) {
-            throw new DAOException();
-        }
+        return em.createQuery(jpql)
+                .executeUpdate();
 
     }
 
-    public void deleteByCode(String code) {
+    public List<Course> findAllEnabled() {
 
-        try(Connection connection = ConnectionFactory.getConnection()) {
+        String jpql = "SELECT c FROM Course c WHERE c.disabled = false";
 
-            connection.setAutoCommit(false);
-
-            String sql = """
-                         DELETE FROM Course
-                            WHERE code = ?;
-                         """;
-
-            try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-
-                preparedStatement.setString(1, code);
-                preparedStatement.execute();
-
-                connection.commit();
-
-            } catch(SQLException e) {
-                connection.rollback();
-                throw new DAOException();
-            }
-
-        } catch (SQLException e) {
-            throw new DAOException();
-        }
+        return em.createQuery(jpql, Course.class)
+                .getResultList();
 
     }
 

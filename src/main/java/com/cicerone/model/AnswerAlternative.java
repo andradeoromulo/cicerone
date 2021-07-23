@@ -2,14 +2,31 @@ package com.cicerone.model;
 
 import com.cicerone.util.validation.Validator;
 
+import javax.persistence.*;
+
+@Entity
 public class AnswerAlternative {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String description;
-    private Integer order;
     private boolean correct;
+
+    @Column(columnDefinition = "TEXT")
     private String explanation;
+
+    @Column(columnDefinition = "TEXT")
+    private String description;
+
+    @Column(name = "orderPosition")
+    private Integer order;
+
+    @ManyToOne
+    @JoinColumn(name = "questionId")
     private Question question;
+
+    @Deprecated
+    public AnswerAlternative(){};
 
     // Required fields only
     public AnswerAlternative(String description, boolean correct, Question question) {
