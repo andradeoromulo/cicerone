@@ -108,7 +108,7 @@ CREATE TABLE AnswerAlternative(
     description TEXT NOT NULL,
     explanation TEXT,
     orderPosition INTEGER,
-    correct TINYINT NOT NULL,
+    correct BOOLEAN NOT NULL,
     questionId BIGINT NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT fk_answer_alternative_question FOREIGN KEY (questionId)
