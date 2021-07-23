@@ -4,29 +4,38 @@ import com.cicerone.model.Category;
 import com.cicerone.model.Subcategory;
 
 public class SubcategoryBuilder {
-    Subcategory subcategory;
+    private String title;
+    private String code;
+    private Category parentCategory;
+    private int order;
+    private boolean disabled;
 
     public SubcategoryBuilder(String title, String code, Category parentCategory) {
-        this.subcategory = new Subcategory(title, code, parentCategory);
+        this.title = title;
+        this.code = code;
+        this.parentCategory = parentCategory;
     }
 
     public SubcategoryBuilder orderedAs(int order) {
-        this.subcategory.setOrder(order);
+        this.order = order;
         return this;
     }
 
     public SubcategoryBuilder enabled() {
-        this.subcategory.setDisabled(false);
+        this.disabled = false;
         return this;
     }
 
     public SubcategoryBuilder disabled() {
-        this.subcategory.setDisabled(true);
+        this.disabled = true;
         return this;
     }
 
     public Subcategory build() {
-        return this.subcategory;
+        Subcategory subcategory = new Subcategory(title, code, parentCategory);
+        subcategory.setOrder(order);
+        if(disabled == false) subcategory.setDisabled(false);
+        return subcategory;
     }
 
 }

@@ -32,7 +32,7 @@ public class CourseDAO {
         em.remove(course);
     }
 
-    public int setAllAsEnabled() {
+    public int updateAllAsEnabled() {
 
         String jpql = "UPDATE Course c SET c.disabled = false";
 

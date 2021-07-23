@@ -1,38 +1,48 @@
 package com.cicerone.util.builder;
 
-import com.cicerone.model.Category;
 import com.cicerone.model.Course;
 import com.cicerone.model.Subcategory;
 
 public class CourseBuilder {
-    Course course;
+    private String title;
+    private String code;
+    private Subcategory subcategory;
+    private boolean disabled;
+    private int timeToFinishInHours;
+    private String instructor;
 
     public CourseBuilder(String title, String code, Subcategory subcategory) {
-        this.course = new Course(title, code, 8, "Generic Instructor", subcategory);
+       this.title = title;
+       this.code = code;
+       this.subcategory = subcategory;
+       this.timeToFinishInHours = 8;
+       this.instructor = "João da Silva";
     }
 
     public CourseBuilder withTimeToFinishInHours(int totalTime) {
-        this.course.setTimeToFinishInHours(totalTime);
+        this.timeToFinishInHours = totalTime;
         return this;
     }
 
     public CourseBuilder withInstructor(String instructorName) {
-        this.course.setInstructor(instructorName);
+        this.instructor = instructorName;
         return this;
     }
 
     public CourseBuilder enabled() {
-        this.course.setDisabled(false);
+        this.disabled = false;
         return this;
     }
 
     public CourseBuilder disabled() {
-        this.course.setDisabled(true);
+        this.disabled = true;
         return this;
     }
 
     public Course build() {
-        return this.course;
+        Course course = new Course(title, code, timeToFinishInHours, instructor, subcategory);
+        if(disabled == false) course.setDisabled(false);
+        return course;
     }
 
 }

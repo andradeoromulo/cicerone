@@ -14,7 +14,7 @@ public class UpdateApp {
 
         em.getTransaction().begin();
 
-        int modifiedLines = courseDAO.setAllAsEnabled();
+        int modifiedLines = courseDAO.updateAllAsEnabled();
 
         em.getTransaction().commit();
         em.close();

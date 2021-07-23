@@ -47,7 +47,7 @@ class CourseDAOTest {
     }
 
     @Test
-    public void setAllAsEnabled__should_set_all_courses_as_enabled() {
+    public void updateAllAsEnabled__should_set_all_courses_as_enabled() {
 
         Category javaCategory = aCategory("Java", "java");
         Subcategory persistenceSubcategory = aSubcategory("Java Persistence", "java-persistence", javaCategory);
@@ -60,7 +60,7 @@ class CourseDAOTest {
 
         assertThat(enabledCourses).isEmpty();
 
-        courseDAO.setAllAsEnabled();
+        courseDAO.updateAllAsEnabled();
 
         enabledCourses = courseDAO.findAllEnabled();
 
