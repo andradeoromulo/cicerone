@@ -4,7 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CategoryTest {
 
@@ -30,11 +31,18 @@ class CategoryTest {
         assertEquals(0, category.getTimeToFinishInHours());
 
         Subcategory subcategory1 = new Subcategory("Introdução a Java", "java-intro", category);
+        category.addSubcategory(subcategory1);
+
         Course course1 = new Course("Java e Orientação a Objetos", "java-oo", 6, "João Santos", subcategory1);
+        subcategory1.addCourse(course1);
         Course course2 = new Course("I/O em Java", "java-io", 8, "João Santos", subcategory1);
+        subcategory1.addCourse(course2);
 
         Subcategory subcategory2 = new Subcategory("Java Intermediário", "java-intermediario", category);
+        category.addSubcategory(subcategory2);
+
         Course course3 = new Course("Collections em Java", "java-collections", 6, "João Santos", subcategory2);
+        subcategory2.addCourse(course3);
 
         assertEquals(20, category.getTimeToFinishInHours());
     }
@@ -47,11 +55,18 @@ class CategoryTest {
         assertEquals(0, category.getCourseAmount());
 
         Subcategory subcategory1 = new Subcategory("Introdução a Java", "java-intro", category);
+        category.addSubcategory(subcategory1);
+
         Course course1 = new Course("Java e Orientação a Objetos", "java-oo", 6, "João Santos", subcategory1);
+        subcategory1.addCourse(course1);
         Course course2 = new Course("I/O em Java", "java-io", 8, "João Santos", subcategory1);
+        subcategory1.addCourse(course2);
 
         Subcategory subcategory2 = new Subcategory("Java Intermediário", "java-intermediario", category);
+        category.addSubcategory(subcategory2);
+
         Course course3 = new Course("Collections em Java", "java-collections", 6, "João Santos", subcategory2);
+        subcategory2.addCourse(course3);
 
         assertEquals(3, category.getCourseAmount());
     }

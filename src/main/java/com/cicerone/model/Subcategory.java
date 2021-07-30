@@ -43,8 +43,6 @@ public class Subcategory {
         this.disabled = true;
         this.parentCategory = parentCategory;
         this.courses = new ArrayList<>();
-
-        parentCategory.addSubcategory(this);
     }
 
     public Subcategory(String title, String code, Integer order, String description, boolean disabled, Category parentCategory) {

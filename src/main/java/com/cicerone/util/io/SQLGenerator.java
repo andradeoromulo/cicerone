@@ -88,7 +88,10 @@ public final class SQLGenerator {
             boolean disabled = !properties[4].equals("ATIVA");
             Category parentCategory = categoriesMap.get(properties[5]);
 
-            return new Subcategory(title, code, order, description, disabled, parentCategory);
+            Subcategory subcategory = new Subcategory(title, code, order, description, disabled, parentCategory);
+            parentCategory.addSubcategory(subcategory);
+
+            return subcategory;
         });
 
         Map<String, Subcategory> subcategoriesMap = subcategories.stream().collect(Collectors.toMap(Subcategory::getCode, Function.identity()));
@@ -105,7 +108,10 @@ public final class SQLGenerator {
             String skills = properties[7];
             Subcategory subcategory = subcategoriesMap.get(properties[8]);
 
-            return new Course(title, code, timeToFinishInHours, disabled, targetAudience, instructor, program, skills, subcategory);
+            Course course = new Course(title, code, timeToFinishInHours, disabled, targetAudience, instructor, program, skills, subcategory);
+            subcategory.addCourse(course);
+
+            return course;
         });
 
         return categories;

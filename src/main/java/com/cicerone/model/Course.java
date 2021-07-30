@@ -44,8 +44,6 @@ public class Course {
         this.instructor = instructor;
         this.subcategory = subcategory;
         this.disabled = true;
-
-        subcategory.addCourse(this);
     }
 
     public Course(String title, String code, Integer timeToFinishInHours, boolean disabled, String targetAudience, String instructor, String program, String skills, Subcategory subcategory) {
