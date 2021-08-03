@@ -108,4 +108,8 @@ public class Category {
     public void setOrder(Integer order) {
         this.order = order;
     }
+
+    public String getStudyGuide() {
+        return studyGuide;
+    }
 }
