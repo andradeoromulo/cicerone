@@ -112,4 +112,8 @@ public class Category {
     public String getStudyGuide() {
         return studyGuide;
     }
+
+    public void setStudyGuide(String studyGuide) {
+        this.studyGuide = studyGuide;
+    }
 }

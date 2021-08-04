@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("/api")
 public class ApiController {
 
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
     public ApiController(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;

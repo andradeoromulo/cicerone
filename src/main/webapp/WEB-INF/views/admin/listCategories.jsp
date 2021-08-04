@@ -8,7 +8,7 @@
 
     <h1>Categorias</h1>
 
-    <a href="#" class="btn btn-primary" role="button">Nova categoria</a>
+    <a href="/admin/categories/new" class="btn btn-primary">Nova categoria</a>
 
     <table class="table table-bordered">
         <thead>
@@ -23,11 +23,11 @@
         <tbody>
             <c:forEach var="category" items="${categories}">
                 <tr>
-                    <td>${category.title}</td>
-                    <td>${category.code}</td>
-                    <td>${category.disabled ? 'Inativa' : 'Ativa'}</td>
-                    <td><a href="#">Subcategorias</a></td>
-                    <td><a href="#" class="btn btn-default">Editar</a></td>
+                    <td>${category.title()}</td>
+                    <td>${category.code()}</td>
+                    <td>${category.disabled() ? 'Inativa' : 'Ativa'}</td>
+                    <td><a href="/admin/subcategories/${category.code()}">Subcategorias</a></td>
+                    <td><a href="/admin/categories/${category.code()}" class="btn btn-default">Editar</a></td>
                 </tr>
             </c:forEach>
         </tbody>
