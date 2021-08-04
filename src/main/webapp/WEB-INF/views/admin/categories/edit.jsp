@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="templates" tagdir="/WEB-INF/tags/templates" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -6,20 +6,22 @@
 <templates:htmlPageStart title="Nova Categoria" />
 
 <div class="container">
-    <h1>Nova Categoria</h1>
+    <h1>Editar categoria</h1>
 
-    <form:form modelAttribute="categoryForm" method="post" action="/admin/categories" >
+    <form:form modelAttribute="categoryForm" method="post" action="/admin/categories/${categoryForm.code}" >
+
+        <form:hidden path="id" />
 
         <div class="form-group">
             <label for="title">Nome</label>
-            <form:input type="text" class="form-control" id="title" path="title" required="true"
+            <form:input type="text" class="form-control" id="title" path="title"
                         placeholder="Digite aqui o nome da categoria" />
             <form:errors path="title" cssClass="text-danger" />
         </div>
 
         <div class="form-group">
             <label for="code">Código</label>
-            <form:input type="text" class="form-control" id="code" path="code" required="true"
+            <form:input type="text" class="form-control" id="code" path="code"
                         placeholder="Por exemplo: desenvolvimento, movile (não use letras maiúsculas, acentos ou caracteres especiais)" />
             <form:errors path="code" cssClass="text-danger" />
         </div>

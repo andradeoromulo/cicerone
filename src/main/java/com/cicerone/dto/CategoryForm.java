@@ -14,12 +14,32 @@ public class CategoryForm {
     @Pattern(regexp = "^[a-z]+[a-z-]*[a-z]+$", message = "{category.code.pattern}")
     private String code;
 
+    private Long id;
     private String description;
     private String studyGuide;
     private boolean disabled;
     private String iconPath;
     private String colorHexCode;
     private Integer order;
+
+    public CategoryForm() {
+    }
+
+    public CategoryForm(Category category) {
+        this.title = category.getTitle();
+        this.code = category.getCode();
+        this.id = category.getId();
+        this.description = category.getDescription();
+        this.studyGuide = category.getStudyGuide();
+        this.disabled = category.isDisabled();
+        this.iconPath = category.getIconPath();
+        this.colorHexCode = category.getColorHexCode();
+        this.order = category.getOrder();
+    }
+
+    public Long getId() {
+        return id;
+    }
 
     public String getTitle() {
         return title;
@@ -51,6 +71,10 @@ public class CategoryForm {
 
     public Integer getOrder() {
         return order;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setTitle(String title) {
@@ -87,7 +111,9 @@ public class CategoryForm {
 
     public Category toModel() {
         Category category = new Category(title, code, order, description, disabled, iconPath, colorHexCode);
+        category.setId(id);
         category.setStudyGuide(studyGuide);
         return category;
     }
+
 }
