@@ -1,9 +1,12 @@
-package com.cicerone.model;
+package com.cicerone.category;
 
+import com.cicerone.subcategory.Subcategory;
 import com.cicerone.util.validation.Validator;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Entity
 public class Category {

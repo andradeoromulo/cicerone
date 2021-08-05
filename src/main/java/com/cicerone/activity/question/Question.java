@@ -1,5 +1,7 @@
-package com.cicerone.model;
+package com.cicerone.activity.question;
 
+import com.cicerone.activity.Activity;
+import com.cicerone.section.Section;
 import com.cicerone.util.validation.Validator;
 
 import javax.persistence.Column;

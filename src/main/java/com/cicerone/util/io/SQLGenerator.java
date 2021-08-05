@@ -1,8 +1,8 @@
 package com.cicerone.util.io;
 
-import com.cicerone.model.Category;
-import com.cicerone.model.Course;
-import com.cicerone.model.Subcategory;
+import com.cicerone.category.Category;
+import com.cicerone.course.Course;
+import com.cicerone.subcategory.Subcategory;
 
 import java.io.FileWriter;
 import java.io.IOException;

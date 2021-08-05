@@ -1,6 +1,6 @@
 package com.cicerone.db.dao;
 
-import com.cicerone.model.Course;
+import com.cicerone.course.Course;
 
 import javax.persistence.EntityManager;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.cicerone.model;
+package com.cicerone.activity.question;
 
 import com.cicerone.util.validation.Validator;
 

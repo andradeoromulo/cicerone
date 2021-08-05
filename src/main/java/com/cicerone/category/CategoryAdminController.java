@@ -1,9 +1,5 @@
-package com.cicerone.controller;
+package com.cicerone.category;
 
-import com.cicerone.dto.CategoryForm;
-import com.cicerone.dto.SimpleCategoryDTO;
-import com.cicerone.model.Category;
-import com.cicerone.repository.CategoryRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,15 +10,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
 import java.util.List;
 
 @Controller
-public class CategoryController {
+public class CategoryAdminController {
 
     private final CategoryRepository categoryRepository;
 
-    public CategoryController(CategoryRepository categoryRepository) {
+    public CategoryAdminController(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
     }
 

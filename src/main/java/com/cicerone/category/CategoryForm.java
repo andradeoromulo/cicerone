@@ -1,16 +1,17 @@
-package com.cicerone.dto;
-
-import com.cicerone.model.Category;
+package com.cicerone.category;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 
 public class CategoryForm {
 
-    @NotBlank(message = "{category.title.notblank}")
+    @NotBlank(message = "{category.title.not.blank}")
+    @Size(min = 3, message = "{category.title.size}")
     private String title;
 
-    @NotBlank(message = "{category.code.notblank}")
+    @NotBlank(message = "{category.code.not.blank}")
     @Pattern(regexp = "^[a-z]+[a-z-]*[a-z]+$", message = "{category.code.pattern}")
     private String code;
 
@@ -20,6 +21,8 @@ public class CategoryForm {
     private boolean disabled;
     private String iconPath;
     private String colorHexCode;
+
+    @Positive(message = "{category.code.positive}")
     private Integer order;
 
     public CategoryForm() {

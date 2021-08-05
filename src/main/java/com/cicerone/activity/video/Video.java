@@ -1,4 +1,7 @@
-package com.cicerone.model;
+package com.cicerone.activity.video;
+
+import com.cicerone.activity.Activity;
+import com.cicerone.section.Section;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

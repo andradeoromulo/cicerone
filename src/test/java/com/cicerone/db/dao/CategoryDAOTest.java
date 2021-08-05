@@ -1,6 +1,6 @@
 package com.cicerone.db.dao;
 
-import com.cicerone.model.Category;
+import com.cicerone.category.Category;
 import com.cicerone.util.builder.CategoryBuilder;
 import com.cicerone.util.db.JPAUtil;
 import org.junit.jupiter.api.AfterEach;

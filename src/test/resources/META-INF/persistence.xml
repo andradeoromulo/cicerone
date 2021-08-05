@@ -6,9 +6,9 @@
 
     <persistence-unit name="ciceronetest" transaction-type="RESOURCE_LOCAL">
 
-        <class>com.cicerone.model.Category</class>
-        <class>com.cicerone.model.Subcategory</class>
-        <class>com.cicerone.model.Course</class>
+        <class>com.cicerone.category.Category</class>
+        <class>com.cicerone.subcategory.Subcategory</class>
+        <class>com.cicerone.course.Course</class>
 
         <properties>
 

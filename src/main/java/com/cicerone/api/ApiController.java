@@ -1,7 +1,7 @@
-package com.cicerone.controller;
+package com.cicerone.api;
 
-import com.cicerone.dto.CategoryDTO;
-import com.cicerone.repository.CategoryRepository;
+import com.cicerone.category.CategoryApiDTO;
+import com.cicerone.category.CategoryRepository;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,8 +21,8 @@ public class ApiController {
     }
 
     @GetMapping(value = "/categories", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<List<CategoryDTO>> getAllCategories() {
-        List<CategoryDTO> categories = categoryRepository.findAllEnabled().stream().map(CategoryDTO::new).toList();
+    public ResponseEntity<List<CategoryApiDTO>> getAllCategories() {
+        List<CategoryApiDTO> categories = categoryRepository.findAllEnabled().stream().map(CategoryApiDTO::new).toList();
         return ResponseEntity.ok(categories);
     }
 

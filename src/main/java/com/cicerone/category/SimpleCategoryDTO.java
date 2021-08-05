@@ -1,6 +1,4 @@
-package com.cicerone.dto;
-
-import com.cicerone.model.Category;
+package com.cicerone.category;
 
 public record SimpleCategoryDTO(String code, String title, boolean disabled) {
 

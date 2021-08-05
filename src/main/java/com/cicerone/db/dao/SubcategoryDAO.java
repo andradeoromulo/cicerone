@@ -1,6 +1,6 @@
 package com.cicerone.db.dao;
 
-import com.cicerone.model.Subcategory;
+import com.cicerone.subcategory.Subcategory;
 
 import javax.persistence.EntityManager;
 import java.util.List;

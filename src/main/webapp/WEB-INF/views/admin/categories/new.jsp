@@ -34,7 +34,7 @@
 
         <div class="form-group">
             <label for="code">Ordem da categoria</label>
-            <form:input type="number" min="0" step="1" class="form-control" id="order" path="order"
+            <form:input type="number" min="1" step="1" class="form-control" id="order" path="order"
                         placeholder="Por exemplo: categoria de order 1 aparece antes da categoria de ordem 2" />
             <form:errors path="order" cssClass="text-danger" />
         </div>

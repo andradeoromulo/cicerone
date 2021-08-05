@@ -1,7 +1,7 @@
 package com.cicerone.util.builder;
 
-import com.cicerone.model.Course;
-import com.cicerone.model.Subcategory;
+import com.cicerone.course.Course;
+import com.cicerone.subcategory.Subcategory;
 
 public class CourseBuilder {
     private String title;

@@ -1,11 +1,12 @@
-package com.cicerone.model;
+package com.cicerone.activity;
 
+import com.cicerone.section.Section;
 import com.cicerone.util.validation.Validator;
 
 import javax.persistence.*;
 
-@Entity
-public class Section {
+@MappedSuperclass
+public abstract class Activity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,27 +14,26 @@ public class Section {
     private String title;
     private String code;
     private boolean disabled;
-    private boolean exam;
 
     @Column(name = "orderPosition")
     private Integer order;
 
     @ManyToOne
-    @JoinColumn(name = "courseId")
-    private Course course;
+    @JoinColumn(name = "sectionId")
+    private Section section;
 
     @Deprecated
-    public Section(){};
+    public Activity(){};
 
     // Required fields only
-    public Section(String title, String code, Course course) {
+    public Activity(String title, String code, Section section) {
         Validator.isNotBlankString(title);
         Validator.isValidCode(code);
-        Validator.isNotNullObject(course);
+        Validator.isNotNullObject(section);
 
         this.title = title;
         this.code = code;
-        this.course = course;
+        this.section = section;
         this.disabled = true;
     }
 

@@ -1,7 +1,7 @@
 package com.cicerone.util.builder;
 
-import com.cicerone.model.Category;
-import com.cicerone.model.Subcategory;
+import com.cicerone.category.Category;
+import com.cicerone.subcategory.Subcategory;
 
 public class SubcategoryBuilder {
     private String title;

@@ -1,8 +1,8 @@
 package com.cicerone.db.dao;
 
-import com.cicerone.model.Category;
-import com.cicerone.model.Course;
-import com.cicerone.model.Subcategory;
+import com.cicerone.category.Category;
+import com.cicerone.course.Course;
+import com.cicerone.subcategory.Subcategory;
 import com.cicerone.util.builder.CategoryBuilder;
 import com.cicerone.util.builder.CourseBuilder;
 import com.cicerone.util.builder.SubcategoryBuilder;

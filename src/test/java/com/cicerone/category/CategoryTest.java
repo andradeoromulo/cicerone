@@ -1,5 +1,7 @@
-package com.cicerone.model;
+package com.cicerone.category;
 
+import com.cicerone.course.Course;
+import com.cicerone.subcategory.Subcategory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;

@@ -1,9 +1,13 @@
-package com.cicerone.model;
+package com.cicerone.subcategory;
 
+import com.cicerone.category.Category;
+import com.cicerone.course.Course;
 import com.cicerone.util.validation.Validator;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Entity
 public class Subcategory {

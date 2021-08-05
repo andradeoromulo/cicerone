@@ -1,6 +1,6 @@
 package com.cicerone.util.builder;
 
-import com.cicerone.model.Category;
+import com.cicerone.category.Category;
 
 public class CategoryBuilder {
     private String title;
