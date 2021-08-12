@@ -1,9 +1,10 @@
 package com.cicerone.activity;
 
 import com.cicerone.section.Section;
-import com.cicerone.util.validation.Validator;
 
 import javax.persistence.*;
+
+import static org.apache.commons.lang3.Validate.*;
 
 @MappedSuperclass
 public abstract class Activity {
@@ -27,9 +28,9 @@ public abstract class Activity {
 
     // Required fields only
     public Activity(String title, String code, Section section) {
-        Validator.isNotBlankString(title);
-        Validator.isValidCode(code);
-        Validator.isNotNullObject(section);
+        notBlank(title);
+        matchesPattern(code, "^[a-z]+[a-z-]*[a-z]+$");
+        notNull(section);
 
         this.title = title;
         this.code = code;

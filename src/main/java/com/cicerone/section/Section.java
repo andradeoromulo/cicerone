@@ -1,9 +1,10 @@
 package com.cicerone.section;
 
 import com.cicerone.course.Course;
-import com.cicerone.util.validation.Validator;
 
 import javax.persistence.*;
+
+import static org.apache.commons.lang3.Validate.*;
 
 @Entity
 public class Section {
@@ -28,9 +29,9 @@ public class Section {
 
     // Required fields only
     public Section(String title, String code, Course course) {
-        Validator.isNotBlankString(title);
-        Validator.isValidCode(code);
-        Validator.isNotNullObject(course);
+        notBlank(title);
+        matchesPattern(code, "^[a-z]+[a-z-]*[a-z]+$");
+        notNull(course);
 
         this.title = title;
         this.code = code;

@@ -2,12 +2,13 @@ package com.cicerone.subcategory;
 
 import com.cicerone.category.Category;
 import com.cicerone.course.Course;
-import com.cicerone.util.validation.Validator;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import static org.apache.commons.lang3.Validate.*;
 
 @Entity
 public class Subcategory {
@@ -38,9 +39,9 @@ public class Subcategory {
 
     // Required fields for Subcategory
     public Subcategory(String title, String code, Category parentCategory) {
-        Validator.isNotBlankString(title);
-        Validator.isValidCode(code);
-        Validator.isNotNullObject(parentCategory);
+        notBlank(title);
+        matchesPattern(code, "^[a-z]+[a-z-]*[a-z]+$");
+        notNull(parentCategory);
 
         this.title = title;
         this.code = code;

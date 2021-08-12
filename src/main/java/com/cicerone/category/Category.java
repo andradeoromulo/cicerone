@@ -1,12 +1,14 @@
 package com.cicerone.category;
 
 import com.cicerone.subcategory.Subcategory;
-import com.cicerone.util.validation.Validator;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import static org.apache.commons.lang3.Validate.matchesPattern;
+import static org.apache.commons.lang3.Validate.notBlank;
 
 @Entity
 public class Category {
@@ -34,8 +36,8 @@ public class Category {
 
     // Required fields for Category
     public Category(String title, String code) {
-        Validator.isNotBlankString(title);
-        Validator.isValidCode(code);
+        notBlank(title);
+        matchesPattern(code, "^[a-z]+[a-z-]*[a-z]+$");
 
         this.title = title;
         this.code = code;

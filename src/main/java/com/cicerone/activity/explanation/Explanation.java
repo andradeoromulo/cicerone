@@ -2,10 +2,11 @@ package com.cicerone.activity.explanation;
 
 import com.cicerone.activity.Activity;
 import com.cicerone.section.Section;
-import com.cicerone.util.validation.Validator;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+
+import static org.apache.commons.lang3.Validate.notBlank;
 
 @Entity
 public class Explanation extends Activity {
@@ -21,7 +22,7 @@ public class Explanation extends Activity {
     public Explanation(String title, String code, String text, Section section) {
         super(title, code, section);
 
-        Validator.isNotBlankString(text);
+        notBlank(text);
 
         this.text = text;
     }

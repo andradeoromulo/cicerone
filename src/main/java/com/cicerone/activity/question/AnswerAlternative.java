@@ -1,8 +1,9 @@
 package com.cicerone.activity.question;
 
-import com.cicerone.util.validation.Validator;
-
 import javax.persistence.*;
+
+import static org.apache.commons.lang3.Validate.notBlank;
+import static org.apache.commons.lang3.Validate.notNull;
 
 @Entity
 public class AnswerAlternative {
@@ -30,8 +31,8 @@ public class AnswerAlternative {
 
     // Required fields only
     public AnswerAlternative(String description, boolean correct, Question question) {
-        Validator.isNotBlankString(description);
-        Validator.isNotNullObject(question);
+        notBlank(description);
+        notNull(question);
 
         this.description = description;
         this.correct = correct;

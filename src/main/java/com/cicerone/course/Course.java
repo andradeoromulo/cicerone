@@ -1,9 +1,10 @@
 package com.cicerone.course;
 
 import com.cicerone.subcategory.Subcategory;
-import com.cicerone.util.validation.Validator;
 
 import javax.persistence.*;
+
+import static org.apache.commons.lang3.Validate.*;
 
 @Entity
 public class Course {
@@ -32,12 +33,12 @@ public class Course {
     public Course(){};
 
     // Required fields only
-    public Course(String title, String code, Integer timeToFinishInHours, String instructor, Subcategory subcategory) {
-        Validator.isNotBlankString(title);
-        Validator.isValidCode(code);
-        Validator.isIntegerBetweenRange(timeToFinishInHours, 1, 20);
-        Validator.isNotBlankString(instructor);
-        Validator.isNotNullObject(subcategory);
+    public Course(String title, String code, int timeToFinishInHours, String instructor, Subcategory subcategory) {
+        notBlank(title);
+        matchesPattern(code, "^[a-z]+[a-z-]*[a-z]+$");
+        exclusiveBetween(1, 20, timeToFinishInHours);
+        notBlank(instructor);
+        notNull(subcategory);
 
         this.title = title;
         this.code = code;
